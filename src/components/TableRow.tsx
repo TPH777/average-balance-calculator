@@ -22,7 +22,7 @@ export function TableRow({
   const handleTransaction = (newTransaction: number) => {
     const changeInTransaction = newTransaction - monthTransaction[index];
     const updatedBalance = [...monthBalance];
-    for (let i = index; i <= 31; i++) {
+    for (let i = index; i < 31; i++) {
       updatedBalance[i] = monthBalance[i] + changeInTransaction;
     }
     setMonthBalance(updatedBalance);

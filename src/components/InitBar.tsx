@@ -1,6 +1,8 @@
 import { Form, Table } from "react-bootstrap";
 
 interface InitBarProps {
+  initialBalance: number;
+  setInitialBalance: (balance: number) => void;
   monthBalance: number[];
   setMonthBalance: (balance: number[]) => void;
   savingGoal: number;
@@ -8,19 +10,25 @@ interface InitBarProps {
 }
 
 export function InitBar({
+  initialBalance,
+  setInitialBalance,
   monthBalance,
   setMonthBalance,
   savingGoal,
   setSavingGoal,
 }: InitBarProps) {
-  const handleBalance = (initialBalance: number) => {
-    if (initialBalance < 0) {
+  const handleBalance = (newInitialBalance: number) => {
+    if (newInitialBalance < 0) {
       alert("Balance should never be below 0");
       return;
     }
+    const changeInInitialBalance = newInitialBalance - initialBalance;
     const updatedBalance = [...monthBalance];
-    updatedBalance[0] = initialBalance;
+    for (let i = 0; i < 31; i++) {
+      updatedBalance[i] = monthBalance[i] + changeInInitialBalance;
+    }
     setMonthBalance(updatedBalance);
+    setInitialBalance(newInitialBalance);
   };
 
   const handleGoal = (goal: number) => {
@@ -44,7 +52,7 @@ export function InitBar({
           <Form.Control
             type="number"
             placeholder="Intial Balance"
-            value={monthBalance[0]}
+            value={initialBalance}
             onChange={(e) => handleBalance(Number(e.target.value))}
           ></Form.Control>
         </td>
