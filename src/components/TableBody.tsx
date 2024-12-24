@@ -1,3 +1,4 @@
+import { daysInMonth } from "../functions/date";
 import { TableRow } from "./TableRow";
 
 export interface TableBodyProps {
@@ -5,6 +6,8 @@ export interface TableBodyProps {
   setMonthBalance: (balance: number[]) => void;
   monthTransaction: number[];
   setMonthTransaction: (transaction: number[]) => void;
+  monthAction: number[];
+  setMonthAction: (month: number[]) => void;
   savingGoal: number;
 }
 
@@ -13,17 +16,10 @@ export function TableBody({
   setMonthBalance,
   monthTransaction,
   setMonthTransaction,
+  monthAction,
+  setMonthAction,
   savingGoal,
 }: TableBodyProps) {
-  const getDaysInCurrentMonth = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    return new Date(year, month + 1, 0).getDate();
-  };
-
-  const daysInMonth = getDaysInCurrentMonth();
-
   return (
     <>
       <tbody>
@@ -34,6 +30,8 @@ export function TableBody({
             setMonthBalance={setMonthBalance}
             monthTransaction={monthTransaction}
             setMonthTransaction={setMonthTransaction}
+            monthAction={monthAction}
+            setMonthAction={setMonthAction}
             savingGoal={savingGoal}
           />
         ))}

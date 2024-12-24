@@ -3,11 +3,17 @@ import "./App.css";
 import { InitBar } from "./components/InitBar";
 import { TableBody } from "./components/TableBody";
 import { TableHeader } from "./components/TableHeader";
+import { daysInMonth } from "./functions/date";
 function App() {
   const [initialBalance, setInitialBalance] = useState<number>(0);
-  const [monthBalance, setMonthBalance] = useState<number[]>(Array(31).fill(0));
+  const [monthBalance, setMonthBalance] = useState<number[]>(
+    Array(daysInMonth).fill(0)
+  );
   const [monthTransaction, setMonthTransaction] = useState<number[]>(
-    Array(31).fill(0)
+    Array(daysInMonth).fill(0)
+  );
+  const [monthAction, setMonthAction] = useState<number[]>(
+    Array(daysInMonth).fill(0)
   );
   const [savingGoal, setSavingGoal] = useState<number>(0);
 
@@ -27,6 +33,8 @@ function App() {
         setMonthBalance={setMonthBalance}
         monthTransaction={monthTransaction}
         setMonthTransaction={setMonthTransaction}
+        monthAction={monthAction}
+        setMonthAction={setMonthAction}
         savingGoal={savingGoal}
       />
     </>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { daysInMonth } from "../functions/date";
 
 export interface TableRowProps {
   index: number;
@@ -6,6 +6,8 @@ export interface TableRowProps {
   setMonthBalance: (balance: number[]) => void;
   monthTransaction: number[];
   setMonthTransaction: (transaction: number[]) => void;
+  monthAction: number[];
+  setMonthAction: (month: number[]) => void;
   savingGoal: number;
 }
 
@@ -15,14 +17,14 @@ export function TableRow({
   setMonthBalance,
   monthTransaction,
   setMonthTransaction,
+  monthAction,
+  setMonthAction,
   savingGoal,
 }: TableRowProps) {
-  const [action, setAction] = useState<number>(0);
-
   const handleTransaction = (newTransaction: number) => {
     const changeInTransaction = newTransaction - monthTransaction[index];
     const updatedBalance = [...monthBalance];
-    for (let i = index; i < 31; i++) {
+    for (let i = index; i < daysInMonth; i++) {
       updatedBalance[i] = monthBalance[i] + changeInTransaction;
     }
     setMonthBalance(updatedBalance);
@@ -30,7 +32,20 @@ export function TableRow({
     const updatedTransaction = [...monthTransaction];
     updatedTransaction[index] = newTransaction;
     setMonthTransaction(updatedTransaction);
-    setAction(0);
+
+    var totalBalance = 0;
+    for (let i = 0; i < daysInMonth; i++) {
+      totalBalance += updatedBalance[i];
+    }
+    const averageBalance = totalBalance / daysInMonth;
+    const balanceFromGoal = savingGoal - averageBalance;
+    const updatedAction = [...monthAction];
+    for (let i = 0; i < daysInMonth; i++) {
+      updatedAction[i] =
+        Math.ceil(((balanceFromGoal * daysInMonth) / (daysInMonth - i)) * 100) /
+        100;
+    }
+    setMonthAction(updatedAction);
   };
 
   return (
@@ -48,7 +63,7 @@ export function TableRow({
             }
           />
         </td>
-        <td>{action + savingGoal}</td>
+        <td>{monthAction[index]}</td>
       </tr>
     </>
   );
