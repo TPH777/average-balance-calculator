@@ -15,10 +15,19 @@ export function TableBody({
   setMonthTransaction,
   savingGoal,
 }: TableBodyProps) {
+  const getDaysInCurrentMonth = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    return new Date(year, month + 1, 0).getDate();
+  };
+
+  const daysInMonth = getDaysInCurrentMonth();
+
   return (
     <>
       <tbody>
-        {Array.from({ length: 31 }, (_, index) => (
+        {Array.from({ length: daysInMonth }, (_, index) => (
           <TableRow
             index={index}
             monthBalance={monthBalance}
