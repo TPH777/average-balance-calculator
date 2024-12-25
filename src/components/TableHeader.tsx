@@ -4,7 +4,6 @@ export function TableHeader() {
       <thead>
         <tr>
           <th className="sheet">Date</th>
-          <th className="sheet">Balance</th>
           <th className="sheet">Transaction</th>
           <th className="sheet">Action</th>
         </tr>

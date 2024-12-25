@@ -1,38 +1,35 @@
+import { useEffect, useState } from "react";
 import { daysInMonth } from "../functions/date";
-import { TableRow } from "./TableRow";
+import { TableRows } from "./TableRows";
+import { getUpdatedActions } from "../functions/action";
 
-export interface TableBodyProps {
-  monthBalance: number[];
-  setMonthBalance: (balance: number[]) => void;
-  monthTransaction: number[];
-  setMonthTransaction: (transaction: number[]) => void;
-  monthAction: number[];
-  setMonthAction: (month: number[]) => void;
-  savingGoal: number;
-}
+export function TableBody({ offsettedGoal }: { offsettedGoal: number }) {
+  const [monthTransaction, setMonthTransaction] = useState<number[]>(
+    Array(daysInMonth).fill(0)
+  );
+  const [monthAction, setMonthAction] = useState<number[]>(
+    Array(daysInMonth).fill(0)
+  );
 
-export function TableBody({
-  monthBalance,
-  setMonthBalance,
-  monthTransaction,
-  setMonthTransaction,
-  monthAction,
-  setMonthAction,
-  savingGoal,
-}: TableBodyProps) {
+  useEffect(() => {
+    // Compute action on each day to hit goal
+    const updatedAction = getUpdatedActions(
+      offsettedGoal,
+      monthTransaction,
+      monthAction
+    );
+    setMonthAction(updatedAction);
+  }, [offsettedGoal, monthTransaction]);
+
   return (
     <>
       <tbody>
         {Array.from({ length: daysInMonth }, (_, index) => (
-          <TableRow
+          <TableRows
             index={index}
-            monthBalance={monthBalance}
-            setMonthBalance={setMonthBalance}
             monthTransaction={monthTransaction}
             setMonthTransaction={setMonthTransaction}
             monthAction={monthAction}
-            setMonthAction={setMonthAction}
-            savingGoal={savingGoal}
           />
         ))}
       </tbody>

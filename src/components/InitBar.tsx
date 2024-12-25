@@ -1,70 +1,55 @@
-import { Form, Table } from "react-bootstrap";
-
-interface InitBarProps {
-  initialBalance: number;
-  setInitialBalance: (balance: number) => void;
-  monthBalance: number[];
-  setMonthBalance: (balance: number[]) => void;
-  savingGoal: number;
-  setSavingGoal: (goal: number) => void;
-}
+import { useEffect, useState } from "react";
 
 export function InitBar({
-  initialBalance,
-  setInitialBalance,
-  monthBalance,
-  setMonthBalance,
-  savingGoal,
-  setSavingGoal,
-}: InitBarProps) {
-  const handleBalance = (newInitialBalance: number) => {
-    if (newInitialBalance < 0) {
-      alert("Balance should never be below 0");
-      return;
-    }
-    const changeInInitialBalance = newInitialBalance - initialBalance;
-    const updatedBalance = [...monthBalance];
-    for (let i = 0; i < 31; i++) {
-      updatedBalance[i] = monthBalance[i] + changeInInitialBalance;
-    }
-    setMonthBalance(updatedBalance);
-    setInitialBalance(newInitialBalance);
-  };
+  setOffsettedGoal,
+}: {
+  setOffsettedGoal: (goal: number) => void;
+}) {
+  const [endBalance, setEndBalance] = useState<number>(100000);
+  const [avgBalance, setAverageBalance] = useState<number>(100000);
+  const [savingGoal, setSavingGoal] = useState<number>(500);
 
-  const handleGoal = (goal: number) => {
-    if (goal < 0) {
-      alert("Balance should never be below 0");
-      return;
-    }
-    setSavingGoal(goal);
-  };
+  useEffect(() => {
+    const offsettedGoal = avgBalance + savingGoal - endBalance;
+    setOffsettedGoal(offsettedGoal);
+    console.log(offsettedGoal);
+  }, [endBalance, avgBalance, savingGoal]);
 
   return (
-    <Table striped>
+    <>
       <thead>
         <tr>
-          <th className="initBar">Intial Balance</th>
-          <th className="intiBar">Saving Goal</th>
+          <th className="sheet">End Balance Last Month</th>
+          <th className="sheet">Avg Balance Last Month</th>
+          <th className="sheet">Saving Goal</th>
         </tr>
       </thead>
       <tbody>
         <td>
-          <Form.Control
+          <input
             type="number"
-            placeholder="Intial Balance"
-            value={initialBalance}
-            onChange={(e) => handleBalance(Number(e.target.value))}
-          ></Form.Control>
+            className="initBar"
+            value={endBalance}
+            onChange={(e) => setEndBalance(Number(e.target.value))}
+          ></input>
         </td>
         <td>
-          <Form.Control
+          <input
             type="number"
-            placeholder="Saving Goal"
+            className="initBar"
+            value={avgBalance}
+            onChange={(e) => setAverageBalance(Number(e.target.value))}
+          ></input>
+        </td>
+        <td>
+          <input
+            type="number"
+            className="initBar"
             value={savingGoal}
-            onChange={(e) => handleGoal(Number(e.target.value))}
-          ></Form.Control>
+            onChange={(e) => setSavingGoal(Number(e.target.value))}
+          ></input>
         </td>
       </tbody>
-    </Table>
+    </>
   );
 }
