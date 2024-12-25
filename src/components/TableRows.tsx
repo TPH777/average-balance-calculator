@@ -24,7 +24,8 @@ export function TableRows({
         <td>
           <input
             value={monthTransaction[index]}
-            type="number"
+            type="tel"
+            pattern="-?[0-9]+"
             className="form-control"
             onChange={(transaction) =>
               handleTransaction(Number(transaction.target.value))

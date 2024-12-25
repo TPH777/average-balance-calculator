@@ -27,7 +27,8 @@ export function InitBar({
       <tbody>
         <td>
           <input
-            type="number"
+            type="tel"
+            pattern="-?[0-9]+"
             className="initBar"
             value={endBalance}
             onChange={(e) => setEndBalance(Number(e.target.value))}
@@ -35,7 +36,8 @@ export function InitBar({
         </td>
         <td>
           <input
-            type="number"
+            type="tel"
+            pattern="-?[0-9]+"
             className="initBar"
             value={avgBalance}
             onChange={(e) => setAverageBalance(Number(e.target.value))}
@@ -43,7 +45,8 @@ export function InitBar({
         </td>
         <td>
           <input
-            type="number"
+            type="tel"
+            pattern="-?[0-9]+"
             className="initBar"
             value={savingGoal}
             onChange={(e) => setSavingGoal(Number(e.target.value))}
