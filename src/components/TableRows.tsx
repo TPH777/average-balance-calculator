@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { roundNumber } from "../functions/action";
+
 export interface TableRowProps {
   index: number;
   monthTransaction: number[];
@@ -11,10 +14,22 @@ export function TableRows({
   setMonthTransaction,
   monthAction,
 }: TableRowProps) {
-  const handleTransaction = (newTransaction: number) => {
-    const updatedTransaction = [...monthTransaction];
-    updatedTransaction[index] = newTransaction;
-    setMonthTransaction(updatedTransaction);
+  const [inputValue, setInputValue] = useState<string>(
+    monthTransaction[index].toString()
+  );
+
+  const handleTransaction = (value: string) => {
+    // Allow only valid numeric characters (including negative sign and decimal point)
+    if (/^-?\d*\.?\d*$/.test(value)) {
+      setInputValue(value);
+
+      const parsedValue = Number(value);
+      if (!isNaN(parsedValue)) {
+        const updatedTransaction = [...monthTransaction];
+        updatedTransaction[index] = parsedValue;
+        setMonthTransaction(updatedTransaction);
+      }
+    }
   };
 
   return (
@@ -23,15 +38,13 @@ export function TableRows({
         <td>{index + 1}</td>
         <td>
           <input
-            value={monthTransaction[index]}
-            type="number"
+            value={inputValue}
+            type="text"
             className="form-control"
-            onChange={(transaction) =>
-              handleTransaction(Number(transaction.target.value))
-            }
+            onChange={(e) => handleTransaction(e.target.value)}
           />
         </td>
-        <td>{Math.ceil(monthAction[index] * 100) / 100}</td>
+        <td>{roundNumber(monthAction[index])}</td>
       </tr>
     </>
   );

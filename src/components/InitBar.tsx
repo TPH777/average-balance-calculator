@@ -5,15 +5,23 @@ export function InitBar({
 }: {
   setOffsettedGoal: (goal: number) => void;
 }) {
-  const [endBalance, setEndBalance] = useState<number>(100000);
-  const [avgBalance, setAverageBalance] = useState<number>(100000);
-  const [savingGoal, setSavingGoal] = useState<number>(500);
+  const [endBalance, setEndBalance] = useState<string>("100000");
+  const [avgBalance, setAverageBalance] = useState<string>("100000");
+  const [savingGoal, setSavingGoal] = useState<string>("500");
 
   useEffect(() => {
-    const offsettedGoal = avgBalance + savingGoal - endBalance;
-    setOffsettedGoal(offsettedGoal);
-    console.log(offsettedGoal);
+    const offsettedGoal =
+      Number(avgBalance) + Number(savingGoal) - Number(endBalance);
+    if (!isNaN(offsettedGoal)) {
+      setOffsettedGoal(offsettedGoal);
+    }
   }, [endBalance, avgBalance, savingGoal]);
+
+  const handleInputChange = (value: string, setter: (val: string) => void) => {
+    if (/^-?\d*\.?\d*$/.test(value)) {
+      setter(value);
+    }
+  };
 
   return (
     <>
@@ -25,30 +33,34 @@ export function InitBar({
         </tr>
       </thead>
       <tbody>
-        <td>
-          <input
-            type="number"
-            className="initBar"
-            value={endBalance}
-            onChange={(e) => setEndBalance(Number(e.target.value))}
-          ></input>
-        </td>
-        <td>
-          <input
-            type="number"
-            className="initBar"
-            value={avgBalance}
-            onChange={(e) => setAverageBalance(Number(e.target.value))}
-          ></input>
-        </td>
-        <td>
-          <input
-            type="number"
-            className="initBar"
-            value={savingGoal}
-            onChange={(e) => setSavingGoal(Number(e.target.value))}
-          ></input>
-        </td>
+        <tr>
+          <td>
+            <input
+              type="text"
+              className="initBar"
+              value={endBalance}
+              onChange={(e) => handleInputChange(e.target.value, setEndBalance)}
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              className="initBar"
+              value={avgBalance}
+              onChange={(e) =>
+                handleInputChange(e.target.value, setAverageBalance)
+              }
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              className="initBar"
+              value={savingGoal}
+              onChange={(e) => handleInputChange(e.target.value, setSavingGoal)}
+            />
+          </td>
+        </tr>
       </tbody>
     </>
   );

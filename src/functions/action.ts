@@ -20,3 +20,7 @@ export const getUpdatedActions = (savingGoal: number, monthTransaction: number[]
     }
     return updatedAction;
 }
+
+export const roundNumber = (number: number) => {
+    return Math.ceil(number * 100) / 100;
+}
