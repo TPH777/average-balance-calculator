@@ -25,43 +25,52 @@ export function InitBar({
 
   return (
     <>
-      <thead>
-        <tr>
-          <th className="sheet">End Balance Last Month</th>
-          <th className="sheet">Avg Balance Last Month</th>
-          <th className="sheet">Saving Goal</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <input
-              type="text"
-              className="initBar"
-              value={endBalance}
-              onChange={(e) => handleInputChange(e.target.value, setEndBalance)}
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              className="initBar"
-              value={avgBalance}
-              onChange={(e) =>
-                handleInputChange(e.target.value, setAverageBalance)
-              }
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              className="initBar"
-              value={savingGoal}
-              onChange={(e) => handleInputChange(e.target.value, setSavingGoal)}
-            />
-          </td>
-        </tr>
-      </tbody>
+      <table>
+        <thead>
+          <tr>
+            <th className="sheet">End Balance Last Month</th>
+            <th className="sheet">Avg Balance Last Month</th>
+            <th className="sheet">Saving Goal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input
+                type="text"
+                className="initBar"
+                value={endBalance}
+                inputMode="decimal"
+                onChange={(e) =>
+                  handleInputChange(e.target.value, setEndBalance)
+                }
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                className="initBar"
+                value={avgBalance}
+                inputMode="decimal"
+                onChange={(e) =>
+                  handleInputChange(e.target.value, setAverageBalance)
+                }
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                className="initBar"
+                value={savingGoal}
+                inputMode="decimal"
+                onChange={(e) =>
+                  handleInputChange(e.target.value, setSavingGoal)
+                }
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 }

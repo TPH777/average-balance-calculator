@@ -4,15 +4,14 @@ import { TableRows } from "./TableRows";
 import { getUpdatedActions } from "../functions/action";
 
 export function TableBody({ offsettedGoal }: { offsettedGoal: number }) {
-  const [monthTransaction, setMonthTransaction] = useState<number[]>(
-    Array(daysInMonth).fill(0)
+  const [monthTransaction, setMonthTransaction] = useState<number[][]>(
+    Array.from({ length: daysInMonth }, () => [0])
   );
   const [monthAction, setMonthAction] = useState<number[]>(
     Array(daysInMonth).fill(0)
   );
 
   useEffect(() => {
-    // Compute action on each day to hit goal
     const updatedAction = getUpdatedActions(
       offsettedGoal,
       monthTransaction,
@@ -26,6 +25,7 @@ export function TableBody({ offsettedGoal }: { offsettedGoal: number }) {
       <tbody>
         {Array.from({ length: daysInMonth }, (_, index) => (
           <TableRows
+            key={index}
             index={index}
             monthTransaction={monthTransaction}
             setMonthTransaction={setMonthTransaction}

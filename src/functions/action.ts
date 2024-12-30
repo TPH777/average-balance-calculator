@@ -1,17 +1,21 @@
 import { daysInMonth } from "./date";
 
-const getAverageBalance = (monthTransaction: number[]) => {
+function getAverageBalance(monthTransaction: number[][]): number {
     var prevBalance = 0;
     var totalBalance = 0;
     for (let i = 0; i < daysInMonth; i++) {
-        var currBalance = prevBalance + monthTransaction[i];
+        var totalTransaction = 0;
+        for (let j = 0; j < monthTransaction[i].length; j++) {
+            totalTransaction += monthTransaction[i][j]; 
+        }
+        var currBalance = prevBalance + totalTransaction;
         totalBalance += currBalance;
         prevBalance = currBalance;
     }
     return totalBalance / daysInMonth;
 }
 
-export const getUpdatedActions = (savingGoal: number, monthTransaction: number[], monthAction: number[]) => {
+export function getUpdatedActions(savingGoal: number, monthTransaction: number[][], monthAction: number[]): number[] {
     const averageBalance = getAverageBalance(monthTransaction)
     const balanceFromGoal = savingGoal - averageBalance;
     const updatedAction = [...monthAction];
@@ -21,6 +25,7 @@ export const getUpdatedActions = (savingGoal: number, monthTransaction: number[]
     return updatedAction;
 }
 
-export const roundNumber = (number: number) => {
-    return Math.ceil(number * 100) / 100;
+export function roundNumber(num: number): number {
+    return isNaN(num) ? 0 : Math.round(num * 100) / 100;
 }
+  

@@ -8,8 +8,10 @@ function App() {
   return (
     <>
       <InitBar setOffsettedGoal={setOffsettedGoal} />
-      <TableHeader />
-      <TableBody offsettedGoal={offsettedGoal} />
+      <table>
+        <TableHeader />
+        <TableBody offsettedGoal={offsettedGoal} />
+      </table>
     </>
   );
 }
