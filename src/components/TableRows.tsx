@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { roundNumber } from "../functions/action";
+import { isNumber, roundNumber } from "../functions/number";
 
 export interface TableRowProps {
   index: number;
@@ -18,14 +18,13 @@ export function TableRows({
     Array.from(monthTransaction[index], (num) => num.toString())
   );
 
-  const handleTransaction = (value: string, transactionId: number) => {
-    // Allow only valid numeric characters (including negative sign and decimal point)
-    if (/^-?\d*\.?\d*$/.test(value)) {
+  const handleInput = (input: string, transactionId: number) => {
+    if (isNumber(input)) {
       const newInputValues = [...inputValues];
-      newInputValues[transactionId] = value;
+      newInputValues[transactionId] = input;
       setInputValues(newInputValues);
 
-      const parsedValue = Number(value);
+      const parsedValue = Number(input);
       if (!isNaN(parsedValue)) {
         const updatedTransaction = [...monthTransaction];
         updatedTransaction[index][transactionId] = parsedValue;
@@ -34,7 +33,7 @@ export function TableRows({
     }
   };
 
-  const handleMoreTransaction = () => {
+  const addInput = () => {
     const newInputValues = [...inputValues, "0"];
     setInputValues(newInputValues);
 
@@ -54,13 +53,9 @@ export function TableRows({
                 type="text"
                 inputMode="decimal"
                 className="form-control"
-                onChange={(e) =>
-                  handleTransaction(e.target.value, transactionId)
-                }
+                onChange={(e) => handleInput(e.target.value, transactionId)}
               />
-              {transactionId === 0 && (
-                <button onClick={handleMoreTransaction}>+</button>
-              )}
+              {transactionId === 0 && <button onClick={addInput}>+</button>}
               {transactionId !== inputValues.length - 1 && <br />}
             </div>
           ))}

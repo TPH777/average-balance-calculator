@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
+import { isNumber } from "../functions/number";
+
+interface InitBarProps {
+  setOffsettedGoal: (goal: number) => void;
+  endBalance: string;
+  setEndBalance: (balance: string) => void;
+  avgBalance: string;
+  setAvgBalance: (balance: string) => void;
+}
 
 export function InitBar({
   setOffsettedGoal,
-}: {
-  setOffsettedGoal: (goal: number) => void;
-}) {
-  const [endBalance, setEndBalance] = useState<string>("100000");
-  const [avgBalance, setAverageBalance] = useState<string>("100000");
+  endBalance,
+  setEndBalance,
+  avgBalance,
+  setAvgBalance,
+}: InitBarProps) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
 
   useEffect(() => {
@@ -17,9 +26,9 @@ export function InitBar({
     }
   }, [endBalance, avgBalance, savingGoal]);
 
-  const handleInputChange = (value: string, setter: (val: string) => void) => {
-    if (/^-?\d*\.?\d*$/.test(value)) {
-      setter(value);
+  const handleInput = (input: string, setter: (val: string) => void) => {
+    if (isNumber(input)) {
+      setter(input);
     }
   };
 
@@ -41,9 +50,7 @@ export function InitBar({
                 className="initBar"
                 value={endBalance}
                 inputMode="decimal"
-                onChange={(e) =>
-                  handleInputChange(e.target.value, setEndBalance)
-                }
+                onChange={(e) => handleInput(e.target.value, setEndBalance)}
               />
             </td>
             <td>
@@ -52,9 +59,7 @@ export function InitBar({
                 className="initBar"
                 value={avgBalance}
                 inputMode="decimal"
-                onChange={(e) =>
-                  handleInputChange(e.target.value, setAverageBalance)
-                }
+                onChange={(e) => handleInput(e.target.value, setAvgBalance)}
               />
             </td>
             <td>
@@ -63,9 +68,7 @@ export function InitBar({
                 className="initBar"
                 value={savingGoal}
                 inputMode="decimal"
-                onChange={(e) =>
-                  handleInputChange(e.target.value, setSavingGoal)
-                }
+                onChange={(e) => handleInput(e.target.value, setSavingGoal)}
               />
             </td>
           </tr>

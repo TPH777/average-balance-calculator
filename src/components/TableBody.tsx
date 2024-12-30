@@ -3,10 +3,17 @@ import { daysInMonth } from "../functions/date";
 import { TableRows } from "./TableRows";
 import { getUpdatedActions } from "../functions/action";
 
-export function TableBody({ offsettedGoal }: { offsettedGoal: number }) {
-  const [monthTransaction, setMonthTransaction] = useState<number[][]>(
-    Array.from({ length: daysInMonth }, () => [0])
-  );
+interface TableBodyProps {
+  offsettedGoal: number;
+  monthTransaction: number[][];
+  setMonthTransaction: (transaction: number[][]) => void;
+}
+
+export function TableBody({
+  offsettedGoal,
+  monthTransaction,
+  setMonthTransaction,
+}: TableBodyProps) {
   const [monthAction, setMonthAction] = useState<number[]>(
     Array(daysInMonth).fill(0)
   );
