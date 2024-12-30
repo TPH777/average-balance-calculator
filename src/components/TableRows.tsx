@@ -41,24 +41,45 @@ export function TableRows({
     updatedTransaction[index].push(0); // Add a new transaction with default value 0
     setMonthTransaction(updatedTransaction);
   };
+
+  const removeInput = (transactionId: number) => {
+    const newInputValues = inputValues.filter(
+      (_, idx) => idx !== transactionId
+    );
+    setInputValues(newInputValues);
+
+    const updatedTransaction = [...monthTransaction];
+    updatedTransaction[index] = updatedTransaction[index].filter(
+      (_, idx) => idx !== transactionId
+    );
+    setMonthTransaction(updatedTransaction);
+  };
+
   return (
     <>
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          {inputValues.map((value, transactionId) => (
-            <div key={`${index}-${transactionId}`}>
-              <input
-                value={value}
-                type="text"
-                inputMode="decimal"
-                className="form-control"
-                onChange={(e) => handleInput(e.target.value, transactionId)}
-              />
-              {transactionId === 0 && <button onClick={addInput}>+</button>}
-              {transactionId !== inputValues.length - 1 && <br />}
-            </div>
-          ))}
+          {inputValues.length === 0 ? (
+            <button onClick={addInput}>+</button>
+          ) : (
+            inputValues.map((value, transactionId) => (
+              <div key={`${index}-${transactionId}`}>
+                <input
+                  value={value}
+                  type="text"
+                  inputMode="decimal"
+                  className="form-control"
+                  onChange={(e) => handleInput(e.target.value, transactionId)}
+                />
+                {transactionId === inputValues.length - 1 && (
+                  <button onClick={addInput}>+</button>
+                )}
+                <button onClick={() => removeInput(transactionId)}>-</button>
+                {transactionId !== inputValues.length - 1 && <br />}
+              </div>
+            ))
+          )}
         </td>
         <td>{roundNumber(monthAction[index])}</td>
       </tr>

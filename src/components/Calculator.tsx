@@ -10,7 +10,7 @@ export function Calculator() {
   const [endBalance, setEndBalance] = useState<string>("100000");
   const [avgBalance, setAvgBalance] = useState<string>("100000");
   const [monthTransaction, setMonthTransaction] = useState<number[][]>(
-    Array.from({ length: daysInMonth }, () => [0])
+    Array.from({ length: daysInMonth }, () => [])
   );
 
   return (
