@@ -7,8 +7,8 @@ import { daysInMonth } from "../functions/date";
 
 export function Calculator() {
   const [offsettedGoal, setOffsettedGoal] = useState<number>(500);
-  const [endBalance, setEndBalance] = useState<string>("100000");
-  const [avgBalance, setAvgBalance] = useState<string>("100000");
+  const [endBalance, setEndBalance] = useState<string>("0");
+  const [avgBalance, setAvgBalance] = useState<string>("0");
   const [monthTransaction, setMonthTransaction] = useState<number[][]>(
     Array.from({ length: daysInMonth }, () => [])
   );
