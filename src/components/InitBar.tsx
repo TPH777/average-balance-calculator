@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import { isNumber } from "../functions/number";
 
 interface InitBarProps {
-  setOffsettedGoal: (goal: number) => void;
+  savingGoal: string;
+  setSavingGoal: (balance: string) => void;
   endBalance: string;
   setEndBalance: (balance: string) => void;
   avgBalance: string;
@@ -10,22 +10,13 @@ interface InitBarProps {
 }
 
 export function InitBar({
-  setOffsettedGoal,
+  savingGoal,
+  setSavingGoal,
   endBalance,
   setEndBalance,
   avgBalance,
   setAvgBalance,
 }: InitBarProps) {
-  const [savingGoal, setSavingGoal] = useState<string>("500");
-
-  useEffect(() => {
-    const offsettedGoal =
-      Number(avgBalance) + Number(savingGoal) - Number(endBalance);
-    if (!isNaN(offsettedGoal)) {
-      setOffsettedGoal(offsettedGoal);
-    }
-  }, [endBalance, avgBalance, savingGoal]);
-
   const handleInput = (input: string, setter: (val: string) => void) => {
     if (isNumber(input)) {
       setter(input);

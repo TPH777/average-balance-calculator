@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InitBar } from "./InitBar";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
@@ -11,23 +11,46 @@ import emptyTransactions from "../functions/number";
 
 export function Calculator() {
   const [user, setUser] = useState<string | null>(null);
+  const [savingGoal, setSavingGoal] = useState<string>("500");
   const [offsettedGoal, setOffsettedGoal] = useState<number>(500);
   const [endBalance, setEndBalance] = useState<string>("0");
   const [avgBalance, setAvgBalance] = useState<string>("0");
   const [monthTransaction, setMonthTransaction] =
     useState<number[][]>(emptyTransactions);
 
+  useEffect(() => {
+    const updateOffsettedGoal = async () => {
+      const offsettedGoal =
+        Number(avgBalance) + Number(savingGoal) - Number(endBalance);
+      if (!isNaN(offsettedGoal)) {
+        setOffsettedGoal(offsettedGoal);
+        if (user) {
+          const userDocRef = doc(db, "users", user);
+          await setDoc(userDocRef, {
+            endBalance: endBalance,
+            avgBalance: avgBalance,
+            savingGoal: savingGoal,
+          });
+        }
+      }
+    };
+    updateOffsettedGoal();
+  }, [endBalance, avgBalance, savingGoal]);
+
   const googleSignIn = async () => {
     try {
       const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user.uid;
-      setUser(user);
+      const userId = userCredential.user.uid;
+      setUser(userId);
 
-      const userDocRef = doc(db, "users", user); // collection
-      const userDocSnap = await getDoc(userDocRef);
+      const userDocRef = doc(db, "users", userId); // collection
+      const userData = (await getDoc(userDocRef)).data();
 
-      if (userDocSnap.exists()) {
+      if (userData) {
         // User exists, read from firestore
+        setEndBalance(userData.endBalance);
+        setAvgBalance(userData.avgBalance);
+        setSavingGoal(userData.savingGoal);
         const transactionsDocRef = collection(userDocRef, "transactions"); // sub-collection
         const transactionsDocsSnap = await getDocs(transactionsDocRef);
         const transactions = [[]];
@@ -37,8 +60,12 @@ export function Calculator() {
         setMonthTransaction(transactions);
       } else {
         // User does not exists, initialise firestore
-        await setDoc(userDocRef, {});
-        const transactionsDocRef = collection(userDocRef, "transactions"); // sub-collection
+        await setDoc(userDocRef, {
+          endBalance: "0",
+          avgBalance: "0",
+          savingGoal: "500",
+        });
+        const transactionsDocRef = collection(userDocRef, "transactions");
         // Create a document for each row
         emptyTransactions.forEach((transactions: number[], day: number) => {
           const dayDocRef = doc(transactionsDocRef, `day ${day + 1}`);
@@ -55,7 +82,8 @@ export function Calculator() {
     <>
       <GoogleButton onClick={googleSignIn} />
       <InitBar
-        setOffsettedGoal={setOffsettedGoal}
+        savingGoal={savingGoal}
+        setSavingGoal={setSavingGoal}
         endBalance={endBalance}
         setEndBalance={setEndBalance}
         avgBalance={avgBalance}
