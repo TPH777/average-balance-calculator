@@ -4,6 +4,9 @@ import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
 import { TableFooter } from "./TableFooter";
 import { daysInMonth } from "../functions/date";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase/config";
+import GoogleButton from "react-google-button";
 
 export function Calculator() {
   const [offsettedGoal, setOffsettedGoal] = useState<number>(500);
@@ -13,8 +16,20 @@ export function Calculator() {
     Array.from({ length: daysInMonth }, () => [])
   );
 
+  const googleSignIn = async () => {
+    await signInWithPopup(auth, googleProvider)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
+      <GoogleButton onClick={googleSignIn} />
       <InitBar
         setOffsettedGoal={setOffsettedGoal}
         endBalance={endBalance}
