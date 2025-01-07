@@ -50,7 +50,7 @@ export function Calculator({ user }: { user: string | null }) {
   }, [user]);
 
   useEffect(() => {
-    async () => {
+    const recomputeGoal = async () => {
       const offsettedGoal =
         Number(avgBalance) + Number(savingGoal) - Number(endBalance);
       if (!isNaN(offsettedGoal)) {
@@ -65,6 +65,7 @@ export function Calculator({ user }: { user: string | null }) {
         }
       }
     };
+    recomputeGoal();
   }, [endBalance, avgBalance, savingGoal]);
 
   return (
