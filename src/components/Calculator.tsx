@@ -3,9 +3,8 @@ import { InitBar } from "./InitBar";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
 import { TableFooter } from "./TableFooter";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, provider } from "../firebase/config";
-import GoogleButton from "react-google-button";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import emptyTransactions from "../functions/number";
 
@@ -78,9 +77,20 @@ export function Calculator() {
     }
   };
 
+  const googleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <GoogleButton onClick={googleSignIn} />
+      <button onClick={googleSignIn}>Sign In</button>
+      <button onClick={googleSignOut}>Sign Out</button>
+      <br />
       <InitBar
         savingGoal={savingGoal}
         setSavingGoal={setSavingGoal}
