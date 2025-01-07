@@ -18,7 +18,7 @@ export function Calculator() {
     useState<number[][]>(emptyTransactions);
 
   useEffect(() => {
-    const updateOffsettedGoal = async () => {
+    async () => {
       const offsettedGoal =
         Number(avgBalance) + Number(savingGoal) - Number(endBalance);
       if (!isNaN(offsettedGoal)) {
@@ -33,7 +33,6 @@ export function Calculator() {
         }
       }
     };
-    updateOffsettedGoal();
   }, [endBalance, avgBalance, savingGoal]);
 
   const googleSignIn = async () => {
@@ -50,12 +49,15 @@ export function Calculator() {
         setEndBalance(userData.endBalance);
         setAvgBalance(userData.avgBalance);
         setSavingGoal(userData.savingGoal);
-        const transactionsDocRef = collection(userDocRef, "transactions"); // sub-collection
+        const transactionsDocRef = collection(userDocRef, "transactions");
         const transactionsDocsSnap = await getDocs(transactionsDocRef);
-        const transactions = [[]];
-        transactionsDocsSnap.forEach((day) => {
-          transactions.push(day.data().curr);
+
+        const sortedDocs = transactionsDocsSnap.docs.sort((a, b) => {
+          const dayA = parseInt(a.id.split(" ")[1], 10); // Extract day number
+          const dayB = parseInt(b.id.split(" ")[1], 10);
+          return dayA - dayB; // Numeric comparison
         });
+        const transactions = sortedDocs.map((doc) => doc.data().curr); // Push in sorted order
         setMonthTransaction(transactions);
       } else {
         // User does not exists, initialise firestore
@@ -81,6 +83,7 @@ export function Calculator() {
     try {
       await signOut(auth);
       setUser(null);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -88,8 +91,11 @@ export function Calculator() {
 
   return (
     <>
-      <button onClick={googleSignIn}>Sign In</button>
-      <button onClick={googleSignOut}>Sign Out</button>
+      {user ? (
+        <button onClick={googleSignOut}>Sign Out</button>
+      ) : (
+        <button onClick={googleSignIn}>Sign In</button>
+      )}
       <br />
       <InitBar
         savingGoal={savingGoal}
@@ -102,6 +108,7 @@ export function Calculator() {
       <table>
         <TableHeader />
         <TableBody
+          user={user}
           offsettedGoal={offsettedGoal}
           monthTransaction={monthTransaction}
           setMonthTransaction={setMonthTransaction}

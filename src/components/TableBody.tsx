@@ -4,12 +4,14 @@ import { TableRows } from "./TableRows";
 import { getUpdatedActions } from "../functions/action";
 
 interface TableBodyProps {
+  user: string | null;
   offsettedGoal: number;
   monthTransaction: number[][];
   setMonthTransaction: (transaction: number[][]) => void;
 }
 
 export function TableBody({
+  user,
   offsettedGoal,
   monthTransaction,
   setMonthTransaction,
@@ -32,6 +34,7 @@ export function TableBody({
       <tbody>
         {Array.from({ length: daysInMonth }, (_, index) => (
           <TableRows
+            user={user}
             key={index}
             index={index}
             monthTransaction={monthTransaction}

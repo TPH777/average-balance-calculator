@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isNumber, roundNumber } from "../functions/number";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 export interface TableRowProps {
+  user: string | null;
   index: number;
   monthTransaction: number[][];
   setMonthTransaction: (transaction: number[][]) => void;
@@ -9,6 +12,7 @@ export interface TableRowProps {
 }
 
 export function TableRows({
+  user,
   index,
   monthTransaction,
   setMonthTransaction,
@@ -17,6 +21,12 @@ export function TableRows({
   const [inputValues, setInputValues] = useState<string[]>(
     Array.from(monthTransaction[index], (num) => num.toString())
   );
+
+  useEffect(() => {
+    setInputValues(
+      Array.from(monthTransaction[index], (num) => num.toString())
+    );
+  }, [monthTransaction]);
 
   const handleInput = (input: string, transactionId: number) => {
     if (isNumber(input)) {
@@ -29,6 +39,13 @@ export function TableRows({
         const updatedTransaction = [...monthTransaction];
         updatedTransaction[index][transactionId] = parsedValue;
         setMonthTransaction(updatedTransaction);
+        if (user) {
+          const userDocRef = doc(db, "users", user); // collection
+          const transactionsDocRef = collection(userDocRef, "transactions");
+          const dayDocRef = doc(transactionsDocRef, `day ${index + 1}`);
+          setDoc(dayDocRef, { curr: updatedTransaction[index] });
+          console.log(updatedTransaction[index]);
+        }
       }
     }
   };
@@ -53,6 +70,13 @@ export function TableRows({
       (_, idx) => idx !== transactionId
     );
     setMonthTransaction(updatedTransaction);
+    if (user) {
+      const userDocRef = doc(db, "users", user); // collection
+      const transactionsDocRef = collection(userDocRef, "transactions");
+      const dayDocRef = doc(transactionsDocRef, `day ${index + 1}`);
+      setDoc(dayDocRef, { curr: updatedTransaction[index] });
+      console.log(updatedTransaction[index]);
+    }
   };
 
   return (
