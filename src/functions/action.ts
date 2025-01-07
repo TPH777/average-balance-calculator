@@ -1,4 +1,4 @@
-import { daysInMonth } from "./date";
+import { daysInCurrMonth } from "./date";
 
 export function getBalanceChange(
   monthTransaction: number[][]
@@ -7,7 +7,7 @@ export function getBalanceChange(
   let totalBalance = 0;
   let currBalance = 0;
 
-  for (let i = 0; i < daysInMonth; i++) {
+  for (let i = 0; i < daysInCurrMonth; i++) {
     let totalTransaction = 0;
 
     for (let j = 0; j < monthTransaction[i].length; j++) {
@@ -18,7 +18,7 @@ export function getBalanceChange(
     totalBalance += currBalance;
     prevBalance = currBalance;
   }
-  const avgBalance = totalBalance / daysInMonth
+  const avgBalance = totalBalance / daysInCurrMonth
   return { avgChange: avgBalance, endChange: currBalance };
 }
 
@@ -27,8 +27,8 @@ export function getUpdatedActions(savingGoal: number, monthTransaction: number[]
     const { avgChange: avgBalance } = getBalanceChange(monthTransaction)
     const balanceFromGoal = savingGoal - avgBalance;
     const updatedAction = [...monthAction];
-    for (let i = 0; i < daysInMonth; i++) {
-        updatedAction[i] = (balanceFromGoal * daysInMonth) / (daysInMonth - i);
+    for (let i = 0; i < daysInCurrMonth; i++) {
+        updatedAction[i] = (balanceFromGoal * daysInCurrMonth) / (daysInCurrMonth - i);
     }
     return updatedAction;
 }

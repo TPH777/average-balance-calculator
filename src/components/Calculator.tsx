@@ -5,36 +5,41 @@ import { TableHeader } from "./TableHeader";
 import { TableFooter } from "./TableFooter";
 import { db } from "../firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import emptyTransactions, {
-  setFirestore,
+import {
+  emptyTransactions,
+  initFirestore,
   sortTransactions,
+  updateField,
 } from "../functions/transactions";
+import { daysInCurrMonth } from "../functions/date";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
   const [offsettedGoal, setOffsettedGoal] = useState<number>(500);
   const [endBalance, setEndBalance] = useState<string>("0");
   const [avgBalance, setAvgBalance] = useState<string>("0");
-  const [monthTransaction, setMonthTransaction] =
-    useState<number[][]>(emptyTransactions);
+  const [monthTransaction, setMonthTransaction] = useState<number[][]>(
+    emptyTransactions(daysInCurrMonth)
+  );
+  const [isCurr, setIsCurr] = useState<number>(1);
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user) return;
-
+      setIsCurr(1);
       try {
         const userDocRef = doc(db, "users", user);
         const userData = (await getDoc(userDocRef)).data();
 
         if (userData) {
           // User exists, read from Firestore
-          setEndBalance(userData.endBalance);
-          setAvgBalance(userData.avgBalance);
-          setSavingGoal(userData.savingGoal);
-          setMonthTransaction(await sortTransactions(userDocRef));
+          setEndBalance(userData.endBalance[1]);
+          setAvgBalance(userData.avgBalance[1]);
+          setSavingGoal(userData.savingGoal[1]);
+          setMonthTransaction(await sortTransactions(userDocRef, isCurr));
         } else {
           // User does not exist, initialize Firestore
-          setFirestore(
+          initFirestore(
             userDocRef,
             endBalance,
             avgBalance,
@@ -50,22 +55,43 @@ export function Calculator({ user }: { user: string | null }) {
   }, [user]);
 
   useEffect(() => {
-    const recomputeGoal = async () => {
+    const changeMonthData = async () => {
+      if (!user) return;
+      try {
+        const userDocRef = doc(db, "users", user);
+        const userData = (await getDoc(userDocRef)).data();
+
+        if (userData) {
+          setEndBalance(userData.endBalance[isCurr]);
+          setAvgBalance(userData.avgBalance[isCurr]);
+          setSavingGoal(userData.savingGoal[isCurr]);
+          setMonthTransaction(await sortTransactions(userDocRef, isCurr));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    changeMonthData();
+  }, [isCurr]);
+
+  useEffect(() => {
+    const computeAction = async () => {
       const offsettedGoal =
         Number(avgBalance) + Number(savingGoal) - Number(endBalance);
       if (!isNaN(offsettedGoal)) {
         setOffsettedGoal(offsettedGoal);
         if (user) {
           const userDocRef = doc(db, "users", user);
+          const userData = (await getDoc(userDocRef)).data();
           await setDoc(userDocRef, {
-            endBalance: endBalance,
-            avgBalance: avgBalance,
-            savingGoal: savingGoal,
+            endBalance: updateField(userData?.endBalance, endBalance, isCurr),
+            avgBalance: updateField(userData?.avgBalance, avgBalance, isCurr),
+            savingGoal: updateField(userData?.savingGoal, savingGoal, isCurr),
           });
         }
       }
     };
-    recomputeGoal();
+    computeAction();
   }, [endBalance, avgBalance, savingGoal]);
 
   return (
@@ -82,6 +108,7 @@ export function Calculator({ user }: { user: string | null }) {
         <TableHeader />
         <TableBody
           user={user}
+          isCurr={isCurr}
           offsettedGoal={offsettedGoal}
           monthTransaction={monthTransaction}
           setMonthTransaction={setMonthTransaction}
@@ -92,6 +119,11 @@ export function Calculator({ user }: { user: string | null }) {
           monthTransaction={monthTransaction}
         />
       </table>
+      {user && (
+        <button onClick={() => setIsCurr(isCurr ^ 1)}>
+          {isCurr ? "Prev" : "Next"}
+        </button>
+      )}
     </>
   );
 }

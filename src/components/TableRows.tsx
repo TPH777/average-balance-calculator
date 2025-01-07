@@ -4,6 +4,7 @@ import { updateFirestore } from "../functions/transactions";
 
 export interface TableRowProps {
   user: string | null;
+  isCurr: number;
   index: number;
   monthTransaction: number[][];
   setMonthTransaction: (transaction: number[][]) => void;
@@ -12,6 +13,7 @@ export interface TableRowProps {
 
 export function TableRows({
   user,
+  isCurr,
   index,
   monthTransaction,
   setMonthTransaction,
@@ -38,7 +40,7 @@ export function TableRows({
         const updatedTransaction = [...monthTransaction];
         updatedTransaction[index][transactionId] = parsedValue;
         setMonthTransaction(updatedTransaction);
-        updateFirestore(user, updatedTransaction, index);
+        updateFirestore(user, updatedTransaction, index, isCurr);
       }
     }
   };
@@ -63,7 +65,7 @@ export function TableRows({
       (_, idx) => idx !== transactionId
     );
     setMonthTransaction(updatedTransaction);
-    updateFirestore(user, updatedTransaction, index);
+    updateFirestore(user, updatedTransaction, index, isCurr);
   };
 
   return (

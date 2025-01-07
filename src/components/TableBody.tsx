@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { daysInMonth } from "../functions/date";
 import { TableRows } from "./TableRows";
 import { getUpdatedActions } from "../functions/action";
 
 interface TableBodyProps {
   user: string | null;
+  isCurr: number;
   offsettedGoal: number;
   monthTransaction: number[][];
   setMonthTransaction: (transaction: number[][]) => void;
@@ -12,12 +12,13 @@ interface TableBodyProps {
 
 export function TableBody({
   user,
+  isCurr,
   offsettedGoal,
   monthTransaction,
   setMonthTransaction,
 }: TableBodyProps) {
   const [monthAction, setMonthAction] = useState<number[]>(
-    Array(daysInMonth).fill(0)
+    Array(monthTransaction.length).fill(0)
   );
 
   useEffect(() => {
@@ -32,9 +33,10 @@ export function TableBody({
   return (
     <>
       <tbody>
-        {Array.from({ length: daysInMonth }, (_, index) => (
+        {Array.from({ length: monthTransaction.length }, (_, index) => (
           <TableRows
             user={user}
+            isCurr={isCurr}
             key={index}
             index={index}
             monthTransaction={monthTransaction}
