@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { isNumber, roundNumber } from "../functions/number";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { updateFirestore } from "../functions/transactions";
 
 export interface TableRowProps {
   user: string | null;
@@ -39,13 +38,7 @@ export function TableRows({
         const updatedTransaction = [...monthTransaction];
         updatedTransaction[index][transactionId] = parsedValue;
         setMonthTransaction(updatedTransaction);
-        if (user) {
-          const userDocRef = doc(db, "users", user); // collection
-          const transactionsDocRef = collection(userDocRef, "transactions");
-          const dayDocRef = doc(transactionsDocRef, `day ${index + 1}`);
-          setDoc(dayDocRef, { curr: updatedTransaction[index] });
-          console.log(updatedTransaction[index]);
-        }
+        updateFirestore(user, updatedTransaction, index);
       }
     }
   };
@@ -70,13 +63,7 @@ export function TableRows({
       (_, idx) => idx !== transactionId
     );
     setMonthTransaction(updatedTransaction);
-    if (user) {
-      const userDocRef = doc(db, "users", user); // collection
-      const transactionsDocRef = collection(userDocRef, "transactions");
-      const dayDocRef = doc(transactionsDocRef, `day ${index + 1}`);
-      setDoc(dayDocRef, { curr: updatedTransaction[index] });
-      console.log(updatedTransaction[index]);
-    }
+    updateFirestore(user, updatedTransaction, index);
   };
 
   return (

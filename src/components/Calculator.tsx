@@ -3,19 +3,51 @@ import { InitBar } from "./InitBar";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
 import { TableFooter } from "./TableFooter";
-import { signInWithPopup, signOut } from "firebase/auth";
-import { auth, db, provider } from "../firebase/config";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import emptyTransactions from "../functions/number";
+import { db } from "../firebase/config";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import emptyTransactions, {
+  setFirestore,
+  sortTransactions,
+} from "../functions/transactions";
 
-export function Calculator() {
-  const [user, setUser] = useState<string | null>(null);
+export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
   const [offsettedGoal, setOffsettedGoal] = useState<number>(500);
   const [endBalance, setEndBalance] = useState<string>("0");
   const [avgBalance, setAvgBalance] = useState<string>("0");
   const [monthTransaction, setMonthTransaction] =
     useState<number[][]>(emptyTransactions);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user) return;
+
+      try {
+        const userDocRef = doc(db, "users", user);
+        const userData = (await getDoc(userDocRef)).data();
+
+        if (userData) {
+          // User exists, read from Firestore
+          setEndBalance(userData.endBalance);
+          setAvgBalance(userData.avgBalance);
+          setSavingGoal(userData.savingGoal);
+          setMonthTransaction(await sortTransactions(userDocRef));
+        } else {
+          // User does not exist, initialize Firestore
+          setFirestore(
+            userDocRef,
+            endBalance,
+            avgBalance,
+            savingGoal,
+            monthTransaction
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUserData();
+  }, [user]);
 
   useEffect(() => {
     async () => {
@@ -35,68 +67,8 @@ export function Calculator() {
     };
   }, [endBalance, avgBalance, savingGoal]);
 
-  const googleSignIn = async () => {
-    try {
-      const userCredential = await signInWithPopup(auth, provider);
-      const userId = userCredential.user.uid;
-      setUser(userId);
-
-      const userDocRef = doc(db, "users", userId); // collection
-      const userData = (await getDoc(userDocRef)).data();
-
-      if (userData) {
-        // User exists, read from firestore
-        setEndBalance(userData.endBalance);
-        setAvgBalance(userData.avgBalance);
-        setSavingGoal(userData.savingGoal);
-        const transactionsDocRef = collection(userDocRef, "transactions");
-        const transactionsDocsSnap = await getDocs(transactionsDocRef);
-
-        const sortedDocs = transactionsDocsSnap.docs.sort((a, b) => {
-          const dayA = parseInt(a.id.split(" ")[1], 10); // Extract day number
-          const dayB = parseInt(b.id.split(" ")[1], 10);
-          return dayA - dayB; // Numeric comparison
-        });
-        const transactions = sortedDocs.map((doc) => doc.data().curr); // Push in sorted order
-        setMonthTransaction(transactions);
-      } else {
-        // User does not exists, initialise firestore
-        await setDoc(userDocRef, {
-          endBalance: "0",
-          avgBalance: "0",
-          savingGoal: "500",
-        });
-        const transactionsDocRef = collection(userDocRef, "transactions");
-        // Create a document for each row
-        emptyTransactions.forEach((transactions: number[], day: number) => {
-          const dayDocRef = doc(transactionsDocRef, `day ${day + 1}`);
-          setDoc(dayDocRef, { curr: transactions });
-        });
-        setMonthTransaction(emptyTransactions);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const googleSignOut = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
-      {user ? (
-        <button onClick={googleSignOut}>Sign Out</button>
-      ) : (
-        <button onClick={googleSignIn}>Sign In</button>
-      )}
-      <br />
       <InitBar
         savingGoal={savingGoal}
         setSavingGoal={setSavingGoal}
