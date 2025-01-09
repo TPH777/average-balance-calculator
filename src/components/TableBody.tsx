@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TableRows } from "./TableRows";
 import { getUpdatedActions } from "../functions/action";
+import { getDaysInMonth } from "../functions/date";
 
 interface TableBodyProps {
   user: string | null;
@@ -25,7 +26,8 @@ export function TableBody({
     const updatedAction = getUpdatedActions(
       offsettedGoal,
       monthTransaction,
-      monthAction
+      monthAction,
+      isCurr
     );
     setMonthAction(updatedAction);
   }, [offsettedGoal, monthTransaction]);
@@ -33,7 +35,7 @@ export function TableBody({
   return (
     <>
       <tbody>
-        {Array.from({ length: monthTransaction.length }, (_, index) => (
+        {Array.from({ length: getDaysInMonth(isCurr) }, (_, index) => (
           <TableRows
             user={user}
             isCurr={isCurr}

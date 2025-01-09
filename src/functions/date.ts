@@ -15,3 +15,9 @@ export const currMonYr = currMonth + " " + (year % 100);
 const prevMonth = (month === 0)? 11 : month - 1
 const prevYear = (year - 1) % 100  
 export const prevMonYr = monthNames[prevMonth] + " " + prevYear;
+
+export function getDaysInMonth(isCurr: number): number {
+  return (isCurr)? daysInCurrMonth : daysInPrevMonth;
+}
+
+export const maxDaysInMonth = 31;

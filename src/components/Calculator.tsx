@@ -11,7 +11,7 @@ import {
   sortTransactions,
   updateField,
 } from "../functions/transactions";
-import { daysInCurrMonth } from "../functions/date";
+import { maxDaysInMonth } from "../functions/date";
 import { Table } from "react-bootstrap";
 
 export function Calculator({ user }: { user: string | null }) {
@@ -20,7 +20,7 @@ export function Calculator({ user }: { user: string | null }) {
   const [endBalance, setEndBalance] = useState<string>("0");
   const [avgBalance, setAvgBalance] = useState<string>("0");
   const [monthTransaction, setMonthTransaction] = useState<number[][]>(
-    emptyTransactions(daysInCurrMonth)
+    emptyTransactions(maxDaysInMonth)
   );
   const [isCurr, setIsCurr] = useState<number>(1);
 
