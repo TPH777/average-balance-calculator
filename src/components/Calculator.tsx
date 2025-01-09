@@ -12,6 +12,7 @@ import {
   updateField,
 } from "../functions/transactions";
 import { daysInCurrMonth } from "../functions/date";
+import { Table } from "react-bootstrap";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
@@ -104,7 +105,7 @@ export function Calculator({ user }: { user: string | null }) {
         avgBalance={avgBalance}
         setAvgBalance={setAvgBalance}
       />
-      <table>
+      <Table striped bordered hover size="sm" className="mt-3">
         <TableHeader />
         <TableBody
           user={user}
@@ -118,7 +119,7 @@ export function Calculator({ user }: { user: string | null }) {
           lastAvgBalance={Number(avgBalance)}
           monthTransaction={monthTransaction}
         />
-      </table>
+      </Table>
       {user && (
         <button onClick={() => setIsCurr(isCurr ^ 1)}>
           {isCurr ? "Prev" : "Next"}

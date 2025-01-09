@@ -1,13 +1,15 @@
 import { useState } from "react";
 import "./App.css";
 import { Calculator } from "./components/Calculator";
-import { AccountButton } from "./components/AccountButton";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { TitleBar } from "./components/TitleBar";
+
 function App() {
   const [user, setUser] = useState<string | null>(null);
 
   return (
     <>
-      <AccountButton user={user} setUser={setUser} />
+      <TitleBar user={user} setUser={setUser} />
       <Calculator user={user} />
     </>
   );

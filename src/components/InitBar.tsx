@@ -1,4 +1,6 @@
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { isNumber } from "../functions/number";
+import { currMonYr, prevMonYr } from "../functions/date";
 
 interface InitBarProps {
   savingGoal: string;
@@ -25,46 +27,51 @@ export function InitBar({
 
   return (
     <>
-      <table>
-        <thead>
-          <tr>
-            <th className="sheet">End Balance Last Month</th>
-            <th className="sheet">Avg Balance Last Month</th>
-            <th className="sheet">Saving Goal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <input
-                type="text"
-                className="initBar"
-                value={endBalance}
-                inputMode="decimal"
-                onChange={(e) => handleInput(e.target.value, setEndBalance)}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                className="initBar"
-                value={avgBalance}
-                inputMode="decimal"
-                onChange={(e) => handleInput(e.target.value, setAvgBalance)}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                className="initBar"
-                value={savingGoal}
-                inputMode="decimal"
-                onChange={(e) => handleInput(e.target.value, setSavingGoal)}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <Container className="mt-4">
+        <Row>
+          <Col>
+            <Form.Label className="form-label">
+              End Balance in {prevMonYr}
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Label className="form-label">
+              Average Balance in {prevMonYr}
+            </Form.Label>
+          </Col>
+          <Col>
+            <Form.Label className="form-label">
+              Saving Goal for {currMonYr}
+            </Form.Label>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Control
+              type="text"
+              value={endBalance}
+              inputMode="decimal"
+              onChange={(e) => handleInput(e.target.value, setEndBalance)}
+            />
+          </Col>
+          <Col>
+            <Form.Control
+              type="text"
+              value={avgBalance}
+              inputMode="decimal"
+              onChange={(e) => handleInput(e.target.value, setAvgBalance)}
+            />
+          </Col>
+          <Col>
+            <Form.Control
+              type="text"
+              value={savingGoal}
+              inputMode="decimal"
+              onChange={(e) => handleInput(e.target.value, setSavingGoal)}
+            />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

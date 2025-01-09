@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { isNumber, roundNumber } from "../functions/number";
 import { updateFirestore } from "../functions/transactions";
+import { Button, Form, InputGroup } from "react-bootstrap";
 
 export interface TableRowProps {
   user: string | null;
@@ -27,7 +28,7 @@ export function TableRows({
     setInputValues(
       Array.from(monthTransaction[index], (num) => num.toString())
     );
-  }, [monthTransaction]);
+  }, [monthTransaction[index]]);
 
   const handleInput = (input: string, transactionId: number) => {
     if (isNumber(input)) {
@@ -46,9 +47,8 @@ export function TableRows({
   };
 
   const addInput = () => {
-    const newInputValues = [...inputValues, "0"];
+    const newInputValues = [...inputValues, ""];
     setInputValues(newInputValues);
-
     const updatedTransaction = [...monthTransaction];
     updatedTransaction[index].push(0); // Add a new transaction with default value 0
     setMonthTransaction(updatedTransaction);
@@ -74,23 +74,38 @@ export function TableRows({
         <td>{index + 1}</td>
         <td>
           {inputValues.length === 0 ? (
-            <button onClick={addInput}>+</button>
+            <Button size="sm" variant="outline-success" onClick={addInput}>
+              +
+            </Button>
           ) : (
             inputValues.map((value, transactionId) => (
-              <div key={`${index}-${transactionId}`}>
-                <input
-                  value={value}
+              <InputGroup key={`${index}-${transactionId}`}>
+                <Form.Control
+                  size="sm"
                   type="text"
+                  value={value == "0" ? "" : value}
+                  placeholder="Amount"
                   inputMode="decimal"
-                  className="form-control"
                   onChange={(e) => handleInput(e.target.value, transactionId)}
                 />
                 {transactionId === inputValues.length - 1 && (
-                  <button onClick={addInput}>+</button>
+                  <Button
+                    size="sm"
+                    variant="outline-success"
+                    onClick={addInput}
+                  >
+                    +
+                  </Button>
                 )}
-                <button onClick={() => removeInput(transactionId)}>-</button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={() => removeInput(transactionId)}
+                >
+                  x
+                </Button>
                 {transactionId !== inputValues.length - 1 && <br />}
-              </div>
+              </InputGroup>
             ))
           )}
         </td>

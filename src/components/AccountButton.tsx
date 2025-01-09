@@ -1,5 +1,7 @@
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../firebase/config";
+import { Button, Image } from "react-bootstrap";
+import googleLogo from "../pictures/google-logo.png";
 
 interface AccountButtonProps {
   user: string | null;
@@ -30,9 +32,20 @@ export function AccountButton({ user, setUser }: AccountButtonProps) {
   return (
     <>
       {user ? (
-        <button onClick={googleSignOut}>Sign Out</button>
+        <Button variant="danger" className="button" onClick={googleSignOut}>
+          Sign Out
+        </Button>
       ) : (
-        <button onClick={googleSignIn}>Sign In</button>
+        <Button variant="dark" className="button" onClick={googleSignIn}>
+          <Image
+            src={googleLogo}
+            alt="logo"
+            width="25"
+            height="25"
+            className="align-top me-2"
+          />
+          Google Sign In
+        </Button>
       )}
       <br />
     </>
