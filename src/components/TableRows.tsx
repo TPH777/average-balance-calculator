@@ -85,7 +85,6 @@ export function TableRows({
                   type="text"
                   value={value == "0" ? "" : value}
                   placeholder="Amount"
-                  inputMode="decimal"
                   onChange={(e) => handleInput(e.target.value, transactionId)}
                 />
                 {transactionId === inputValues.length - 1 && (

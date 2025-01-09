@@ -54,7 +54,6 @@ export function InitBar({
             <Form.Control
               type="text"
               value={endBalance}
-              inputMode="decimal"
               onChange={(e) => handleInput(e.target.value, setEndBalance)}
             />
           </Col>
@@ -62,7 +61,6 @@ export function InitBar({
             <Form.Control
               type="text"
               value={avgBalance}
-              inputMode="decimal"
               onChange={(e) => handleInput(e.target.value, setAvgBalance)}
             />
           </Col>
@@ -70,7 +68,6 @@ export function InitBar({
             <Form.Control
               type="text"
               value={savingGoal}
-              inputMode="decimal"
               onChange={(e) => handleInput(e.target.value, setSavingGoal)}
             />
           </Col>
