@@ -68,7 +68,9 @@
 .table tfoot {
   background-color: #f1f3f5; /* Light background to distinguish the footer */
   font-weight: bold; /* Emphasizes footer content */
+  font-size: small;
   color: #495057; /* Dark text color for readability */
+  text-transform: uppercase;
 }
 
 .table tfoot td {
