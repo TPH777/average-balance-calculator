@@ -120,7 +120,7 @@ export function Calculator({ user }: { user: string | null }) {
             setAvgBalance={setAvgBalance}
           />
 
-          <Table striped bordered hover size="sm" className="mt-3">
+          <Table striped bordered hover size="sm" className="mt-3 table">
             <TableHeader isCurr={isCurr} />
             <TableBody
               user={user}

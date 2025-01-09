@@ -14,36 +14,22 @@ export function TableFooter({
   lastAvgBalance,
   monthTransaction,
 }: TableFooterProps) {
-  const { avgChange: avgChange, endChange: endChange } = getBalanceChange(
-    monthTransaction,
-    isCurr
-  );
+  const { avgChange, endChange } = getBalanceChange(monthTransaction, isCurr);
   const currEndBalance = roundNumber(lastEndBalance + endChange);
   const currAvgBalance = roundNumber(lastEndBalance + avgChange);
   const avgBalanceDiff = roundNumber(currAvgBalance - lastAvgBalance);
 
   return (
-    <>
-      <thead>
-        <th />
-        <th />
-        <th>----------------------------------------</th>
-      </thead>
-      <thead>
-        <th />
-        <th />
-        <th>End Balance: {currEndBalance}</th>
-      </thead>
-      <thead>
-        <th />
-        <th />
-        <th>Average Balance: {currAvgBalance}</th>
-      </thead>
-      <thead>
-        <th />
-        <th />
-        <th>Average Balance Change: {avgBalanceDiff}</th>
-      </thead>
-    </>
+    <tfoot>
+      <tr>
+        <td colSpan={3}>End Balance: {currEndBalance}</td>
+      </tr>
+      <tr>
+        <td colSpan={3}>Average Balance: {currAvgBalance}</td>
+      </tr>
+      <tr>
+        <td colSpan={3}>Average Balance Change: {avgBalanceDiff}</td>
+      </tr>
+    </tfoot>
   );
 }

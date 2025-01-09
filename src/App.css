@@ -48,3 +48,28 @@ text {
   letter-spacing: 1px;
 }
 
+.table {
+  border-radius: 8px; /* Smooth rounded corners */
+  overflow: hidden; /* Ensures rounded corners apply to content */
+}
+
+.table th, .table td {
+  padding: 0.75rem; /* Adds consistent padding */
+}
+
+.table th {
+  background-color: #343a40; /* Dark background for headers */
+  color: #ffffff; /* White text for contrast */
+  text-transform: uppercase; /* Optional: Makes header text uppercase */
+}
+
+.table tfoot {
+  background-color: #f1f3f5; /* Light background to distinguish the footer */
+  font-weight: bold; /* Emphasizes footer content */
+  color: #495057; /* Dark text color for readability */
+}
+
+.table tfoot td {
+  padding: 0.75rem; /* Adds consistent padding */
+  border-top: 1.5px solid #b7babe; /* Differentiates footer with a top border */
+}
