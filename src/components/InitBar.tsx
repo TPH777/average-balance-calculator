@@ -31,7 +31,7 @@ export function InitBar({
 
   return (
     <>
-      <Container className="mt-4">
+      <Container className="mt-4 init-bar-container">
         <Row>
           <Col>
             <Form.Label className="form-label">

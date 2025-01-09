@@ -1,8 +1,7 @@
  #root {
-  /* margin: auto auto; */
   padding: 2rem;
   text-align: center;
-  background-color: rgb(190, 190, 190);
+  background-color: rgb(244, 244, 244);
   min-height: 100vh;
 }
 
@@ -19,9 +18,20 @@
 }
 
 /* Init Bar */
+.init-bar-container {
+  background-color: #3c3e40; /* Light background for the entire form */
+  padding: 1.5rem; /* Adds padding around the container */
+  border-radius: 8px; /* Smooth rounded corners */
+  min-width: 100%;
+}
+
+/* Styling for each form label */
 .form-label {
-  font-weight: bold;
-  text-decoration: underline;
+  color: #ffffff;
+  text-transform: uppercase; /* Optional: Makes header text uppercase */
+  font-size: 1rem; /* Adjusts font size for readability */
+  font-weight: 600; /* Bold labels for emphasis */
+  margin-bottom: 0.5rem; /* Adds space between label and input */
 }
 
 /* Spinner */
