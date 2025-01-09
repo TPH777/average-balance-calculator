@@ -98,6 +98,7 @@ export function Calculator({ user }: { user: string | null }) {
   return (
     <>
       <InitBar
+        isCurr={isCurr}
         savingGoal={savingGoal}
         setSavingGoal={setSavingGoal}
         endBalance={endBalance}
@@ -106,7 +107,7 @@ export function Calculator({ user }: { user: string | null }) {
         setAvgBalance={setAvgBalance}
       />
       <Table striped bordered hover size="sm" className="mt-3">
-        <TableHeader />
+        <TableHeader isCurr={isCurr} />
         <TableBody
           user={user}
           isCurr={isCurr}

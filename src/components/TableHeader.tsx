@@ -1,11 +1,12 @@
-import { currMonth } from "../functions/date";
+import { getDate } from "../functions/date";
 
-export function TableHeader() {
+export function TableHeader({ isCurr }: { isCurr: number }) {
+  const { month: month } = getDate(isCurr);
   return (
     <>
       <thead>
         <tr>
-          <th style={{ width: "20%" }}>{currMonth}</th>
+          <th style={{ width: "20%" }}>{month}</th>
           <th style={{ width: "40%" }}>Transaction</th>
           <th style={{ width: "40%" }}>Action</th>
         </tr>

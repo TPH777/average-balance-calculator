@@ -1,8 +1,9 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { isNumber } from "../functions/number";
-import { currMonYr, prevMonYr } from "../functions/date";
+import { getDate } from "../functions/date";
 
 interface InitBarProps {
+  isCurr: number;
   savingGoal: string;
   setSavingGoal: (balance: string) => void;
   endBalance: string;
@@ -12,6 +13,7 @@ interface InitBarProps {
 }
 
 export function InitBar({
+  isCurr,
   savingGoal,
   setSavingGoal,
   endBalance,
@@ -24,6 +26,8 @@ export function InitBar({
       setter(input);
     }
   };
+
+  const { currMonYr: currMonYr, prevMonYr: prevMonYr } = getDate(isCurr);
 
   return (
     <>
