@@ -37,13 +37,7 @@ export function AccountButton({ user, setUser }: AccountButtonProps) {
         </Button>
       ) : (
         <Button variant="dark" className="button" onClick={googleSignIn}>
-          <Image
-            src={googleLogo}
-            alt="logo"
-            width="25"
-            height="25"
-            className="align-top me-2"
-          />
+          <Image src={googleLogo} alt="logo" className="align-top me-2" />
           Google Sign In
         </Button>
       )}

@@ -6,23 +6,25 @@
   min-height: 100vh;
 }
 
-.button {
-  float: right;
-  height: 40px;
+/* Title */
+.site-title {
+  font-family: 'Arial', sans-serif; 
+  font-size: 2.5rem; 
+  font-weight: bold; 
+  text-align: center;
+  color: #2c3e50; 
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 2rem 0; 
+  letter-spacing: 1px;
 }
 
+/* Init Bar */
 .form-label {
   font-weight: bold;
   text-decoration: underline;
 }
 
-text {
-  font-size: x-large;
-  font-weight: 500;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  float: left;
-}
-
+/* Spinner */
 .spinner-overlay {
   position: fixed; 
   top: 50%;
@@ -37,17 +39,7 @@ text {
   align-items: center;
 }
 
-.site-title {
-  font-family: 'Arial', sans-serif; 
-  font-size: 2.5rem; 
-  font-weight: bold; 
-  text-align: center;
-  color: #2c3e50; 
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 2rem 0; 
-  letter-spacing: 1px;
-}
-
+/* Table */
 .table {
   border-radius: 8px; /* Smooth rounded corners */
   overflow: hidden; /* Ensures rounded corners apply to content */
@@ -72,4 +64,14 @@ text {
 .table tfoot td {
   padding: 0.75rem; /* Adds consistent padding */
   border-top: 1.5px solid #b7babe; /* Differentiates footer with a top border */
+}
+
+/* Button */
+.button {
+  height: auto;
+}
+
+.button img {
+  width: 25px; /* Ensures the icon has a consistent size */
+  height: 25px; /* Matches width for square icons */
 }
