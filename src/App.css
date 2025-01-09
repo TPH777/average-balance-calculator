@@ -3,6 +3,7 @@
   padding: 2rem;
   text-align: center;
   background-color: rgb(190, 190, 190);
+  min-height: 100vh;
 }
 
 .button {
@@ -21,3 +22,11 @@ text {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   float: left;
 }
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures the container fills the viewport */
+}
+

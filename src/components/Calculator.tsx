@@ -105,7 +105,9 @@ export function Calculator({ user }: { user: string | null }) {
   return (
     <>
       {isLoading ? (
-        <Spinner className="mt-4" animation="grow" />
+        <div className="spinner-container">
+          <Spinner style={{ height: "12vh", width: "12vh" }} animation="grow" />
+        </div>
       ) : (
         <>
           <InitBar
