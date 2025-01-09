@@ -115,6 +115,7 @@ export function Calculator({ user }: { user: string | null }) {
           setMonthTransaction={setMonthTransaction}
         />
         <TableFooter
+          isCurr={isCurr}
           lastEndBalance={Number(endBalance)}
           lastAvgBalance={Number(avgBalance)}
           monthTransaction={monthTransaction}
