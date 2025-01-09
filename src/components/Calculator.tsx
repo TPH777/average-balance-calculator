@@ -12,7 +12,7 @@ import {
   updateField,
 } from "../functions/transactions";
 import { maxDaysInMonth } from "../functions/date";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
@@ -122,9 +122,9 @@ export function Calculator({ user }: { user: string | null }) {
         />
       </Table>
       {user && (
-        <button onClick={() => setIsCurr(isCurr ^ 1)}>
-          {isCurr ? "Prev" : "Next"}
-        </button>
+        <Button variant="dark" onClick={() => setIsCurr(isCurr ^ 1)}>
+          {isCurr ? "<- Prev" : "Next ->"}
+        </Button>
       )}
     </>
   );
