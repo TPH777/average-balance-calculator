@@ -63,6 +63,7 @@ export function Calculator({ user }: { user: string | null }) {
   useEffect(() => {
     const changeMonthData = async () => {
       if (!user) return;
+      setIsLoading(true);
       try {
         const userDocRef = doc(db, "users", user);
         const userData = (await getDoc(userDocRef)).data();
@@ -76,6 +77,7 @@ export function Calculator({ user }: { user: string | null }) {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
     changeMonthData();
   }, [isCurr]);
@@ -102,34 +104,37 @@ export function Calculator({ user }: { user: string | null }) {
 
   return (
     <>
-      <InitBar
-        isCurr={isCurr}
-        savingGoal={savingGoal}
-        setSavingGoal={setSavingGoal}
-        endBalance={endBalance}
-        setEndBalance={setEndBalance}
-        avgBalance={avgBalance}
-        setAvgBalance={setAvgBalance}
-      />
       {isLoading ? (
         <Spinner className="mt-4" animation="grow" />
       ) : (
-        <Table striped bordered hover size="sm" className="mt-3">
-          <TableHeader isCurr={isCurr} />
-          <TableBody
-            user={user}
+        <>
+          <InitBar
             isCurr={isCurr}
-            offsettedGoal={offsettedGoal}
-            monthTransaction={monthTransaction}
-            setMonthTransaction={setMonthTransaction}
+            savingGoal={savingGoal}
+            setSavingGoal={setSavingGoal}
+            endBalance={endBalance}
+            setEndBalance={setEndBalance}
+            avgBalance={avgBalance}
+            setAvgBalance={setAvgBalance}
           />
-          <TableFooter
-            isCurr={isCurr}
-            lastEndBalance={Number(endBalance)}
-            lastAvgBalance={Number(avgBalance)}
-            monthTransaction={monthTransaction}
-          />
-        </Table>
+
+          <Table striped bordered hover size="sm" className="mt-3">
+            <TableHeader isCurr={isCurr} />
+            <TableBody
+              user={user}
+              isCurr={isCurr}
+              offsettedGoal={offsettedGoal}
+              monthTransaction={monthTransaction}
+              setMonthTransaction={setMonthTransaction}
+            />
+            <TableFooter
+              isCurr={isCurr}
+              lastEndBalance={Number(endBalance)}
+              lastAvgBalance={Number(avgBalance)}
+              monthTransaction={monthTransaction}
+            />
+          </Table>
+        </>
       )}
       {user && !isLoading && (
         <Button variant="dark" onClick={() => setIsCurr(isCurr ^ 1)}>
