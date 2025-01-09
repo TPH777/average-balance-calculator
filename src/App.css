@@ -23,10 +23,16 @@ text {
   float: left;
 }
 
-.spinner-container {
+.spinner-overlay {
+  position: fixed; /* Ensures it stays in the same place relative to the viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the spinner */
+  z-index: 1050; /* Ensures it appears above other content */
+  background-color: rgba(255, 255, 255, 0.8); /* Optional: Semi-transparent background */
+  width: 100%; /* Covers the screen width */
+  height: 100%; /* Covers the screen height */
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensures the container fills the viewport */
 }
-
