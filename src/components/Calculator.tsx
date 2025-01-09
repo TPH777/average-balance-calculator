@@ -12,7 +12,7 @@ import {
   updateField,
 } from "../functions/transactions";
 import { maxDaysInMonth } from "../functions/date";
-import { Button, Table } from "react-bootstrap";
+import { Button, Spinner, Table } from "react-bootstrap";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
@@ -23,10 +23,14 @@ export function Calculator({ user }: { user: string | null }) {
     emptyTransactions(maxDaysInMonth)
   );
   const [isCurr, setIsCurr] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!user) return;
+      if (!user) {
+        return;
+      }
+      setIsLoading(true);
       setIsCurr(1);
       try {
         const userDocRef = doc(db, "users", user);
@@ -48,6 +52,7 @@ export function Calculator({ user }: { user: string | null }) {
             monthTransaction
           );
         }
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -106,23 +111,27 @@ export function Calculator({ user }: { user: string | null }) {
         avgBalance={avgBalance}
         setAvgBalance={setAvgBalance}
       />
-      <Table striped bordered hover size="sm" className="mt-3">
-        <TableHeader isCurr={isCurr} />
-        <TableBody
-          user={user}
-          isCurr={isCurr}
-          offsettedGoal={offsettedGoal}
-          monthTransaction={monthTransaction}
-          setMonthTransaction={setMonthTransaction}
-        />
-        <TableFooter
-          isCurr={isCurr}
-          lastEndBalance={Number(endBalance)}
-          lastAvgBalance={Number(avgBalance)}
-          monthTransaction={monthTransaction}
-        />
-      </Table>
-      {user && (
+      {isLoading ? (
+        <Spinner className="mt-4" animation="grow" />
+      ) : (
+        <Table striped bordered hover size="sm" className="mt-3">
+          <TableHeader isCurr={isCurr} />
+          <TableBody
+            user={user}
+            isCurr={isCurr}
+            offsettedGoal={offsettedGoal}
+            monthTransaction={monthTransaction}
+            setMonthTransaction={setMonthTransaction}
+          />
+          <TableFooter
+            isCurr={isCurr}
+            lastEndBalance={Number(endBalance)}
+            lastAvgBalance={Number(avgBalance)}
+            monthTransaction={monthTransaction}
+          />
+        </Table>
+      )}
+      {user && !isLoading && (
         <Button variant="dark" onClick={() => setIsCurr(isCurr ^ 1)}>
           {isCurr ? "<- Prev" : "Next ->"}
         </Button>
