@@ -2,15 +2,16 @@ import { useState } from "react";
 import "./App.css";
 import { Calculator } from "./components/Calculator";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { TitleBar } from "./components/TitleBar";
+import { AccountButton } from "./components/AccountButton";
 
 function App() {
   const [user, setUser] = useState<string | null>(null);
 
   return (
     <>
-      <TitleBar user={user} setUser={setUser} />
+      <h1 className="site-title">Average Balance Calculator</h1>
       <Calculator user={user} />
+      <AccountButton user={user} setUser={setUser} />
     </>
   );
 }
