@@ -12,7 +12,8 @@ import {
   updateField,
 } from "../functions/transactions";
 import { maxDaysInMonth } from "../functions/date";
-import { Button, Spinner, Table } from "react-bootstrap";
+import { Spinner, Table } from "react-bootstrap";
+import { MonthSelector } from "./MonthSelector";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
@@ -110,6 +111,7 @@ export function Calculator({ user }: { user: string | null }) {
         </div>
       ) : (
         <>
+          {user && <MonthSelector isCurr={isCurr} setIsCurr={setIsCurr} />}
           <InitBar
             isCurr={isCurr}
             savingGoal={savingGoal}
@@ -137,11 +139,6 @@ export function Calculator({ user }: { user: string | null }) {
             />
           </Table>
         </>
-      )}
-      {user && !isLoading && (
-        <Button variant="dark" onClick={() => setIsCurr(isCurr ^ 1)}>
-          {isCurr ? "<- Prev" : "Next ->"}
-        </Button>
       )}
     </>
   );
