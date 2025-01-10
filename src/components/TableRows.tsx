@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { isNumber, roundNumber } from "../functions/number";
 import { updateFirestore } from "../functions/firestore";
 import { Button, Form, InputGroup } from "react-bootstrap";
+import { day } from "../functions/date";
 
 export interface TableRowProps {
   user: string | null;
@@ -71,7 +72,7 @@ export function TableRows({
   return (
     <>
       <tr key={index}>
-        <td>{index + 1}</td>
+        <td style={index + 1 === day ? { color: "red" } : {}}>{index + 1}</td>
         <td>
           {inputValues.length === 0 ? (
             <Button size="sm" variant="outline-success" onClick={addInput}>
@@ -108,7 +109,9 @@ export function TableRows({
             ))
           )}
         </td>
-        <td>{roundNumber(monthAction[index])}</td>
+        <td style={index + 1 === day ? { color: "red" } : {}}>
+          {roundNumber(monthAction[index])}
+        </td>
       </tr>
     </>
   );

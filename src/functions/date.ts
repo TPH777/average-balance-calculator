@@ -1,6 +1,7 @@
 export const maxDaysInMonth = 31;
 
 export const now = new Date();
+export const day = now.getDate();
 export const year = now.getFullYear();
 export const month = now.getMonth();
 
