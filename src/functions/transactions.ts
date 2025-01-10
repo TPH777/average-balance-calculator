@@ -28,7 +28,7 @@ export async function initFirestore(userDocRef: DocumentReference, endBalance: s
     await setDoc(userDocRef, { 
         endBalance: ["0", endBalance], 
         avgBalance: ["0", avgBalance], 
-        savingGoal: ["0", savingGoal] 
+        savingGoal: ["500", savingGoal] 
     });
     const transactionsDocRef = collection(userDocRef, "transactions");
     monthTransaction.forEach((transactions: number[], day: number) => {

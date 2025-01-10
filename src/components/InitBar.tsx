@@ -1,8 +1,13 @@
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { isNumber } from "../functions/number";
+import { isNumber, roundNumber } from "../functions/number";
 import { getDate } from "../functions/date";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/config";
+import { getBalanceChange } from "../functions/action";
+import { sortTransactions } from "../functions/transactions";
 
 interface InitBarProps {
+  user: string | null;
   isCurr: number;
   savingGoal: string;
   setSavingGoal: (balance: string) => void;
@@ -13,6 +18,7 @@ interface InitBarProps {
 }
 
 export function InitBar({
+  user,
   isCurr,
   savingGoal,
   setSavingGoal,
@@ -29,7 +35,24 @@ export function InitBar({
     }
   };
 
-  const handleCarryForward = () => {};
+  const handleCarryForward = async () => {
+    if (!user) return;
+    try {
+      const userDocRef = doc(db, "users", user);
+      const userData = (await getDoc(userDocRef)).data();
+      const prevMonthTransaction = await sortTransactions(userDocRef, 0);
+      const { avgChange, endChange } = getBalanceChange(
+        prevMonthTransaction,
+        0
+      );
+      const prevEndBalance = roundNumber(userData?.endBalance[0] + endChange);
+      const prevAvgBalance = roundNumber(userData?.avgBalance[0] + avgChange);
+      setEndBalance(prevEndBalance.toString());
+      setAvgBalance(prevAvgBalance.toString());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -37,12 +60,12 @@ export function InitBar({
         <Row>
           <Col>
             <Form.Label className="form-label">
-              End Balance in {prevMonYr}
+              End Balance of {prevMonYr}
             </Form.Label>
           </Col>
           <Col>
             <Form.Label className="form-label">
-              Average Balance in {prevMonYr}
+              Average Balance of {prevMonYr}
             </Form.Label>
           </Col>
           <Col>

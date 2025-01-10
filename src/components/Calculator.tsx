@@ -113,6 +113,7 @@ export function Calculator({ user }: { user: string | null }) {
         <>
           {user && <MonthSelector isCurr={isCurr} setIsCurr={setIsCurr} />}
           <InitBar
+            user={user}
             isCurr={isCurr}
             savingGoal={savingGoal}
             setSavingGoal={setSavingGoal}
