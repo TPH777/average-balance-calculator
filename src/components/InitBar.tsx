@@ -97,10 +97,9 @@ export function InitBar({
             />
           </Col>
         </Row>
-        <Row className="mt-3">
-          <Col />
-          <Col>
-            <div className="d-grid gap-2">
+        {user && isCurr && (
+          <Row className="mt-3">
+            <div className="gap-2">
               <Button
                 size="sm"
                 variant="outline-light"
@@ -109,9 +108,8 @@ export function InitBar({
                 Carry forward from {prevMonYr}
               </Button>
             </div>
-          </Col>
-          <Col />
-        </Row>
+          </Row>
+        )}
       </Container>
     </>
   );
