@@ -5,5 +5,5 @@ export function isNumber(s: string): boolean {
 }
 
 export function roundNumber(num: number): number {
-    return isNaN(num) ? 0 : Math.round(num * 100) / 100;
+    return isNaN(num) ? 0 : Math.floor(num * 100) / 100;
 }
