@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+# Average Balance Calculator (ABC)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[**ABC**](https://calculator-d7143.web.app/) is a web application designed to calculate the average balance of a bank account and determine the actions needed to hit specific saving goals.
 
-Currently, two official plugins are available:
+## Inspiration
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Popular savings accounts like the OCBC 360 account include a "save" category, requiring users to increase their average balance by $500 to earn interest. However, calculating average balance can be troublesome, leading users to either fall short of the requirement or save significantly more than needed, which bears long-term costs. Since interest is capped at a certain balance (e.g., $100k), excess funds may be better invested elsewhere, such as in fixed deposits, bonds, or stocks. To maximize returns, users need accurate knowledge of their average balance.
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Average Balance Calculation**: Automatically computes the average balance based on daily transactions.
+- **Saving Goal Tracking**: Suggests specific actions to meet saving goals based on existing transactions.
+- **User Account Integration**: Sign in with a Google account to securely store two months of data.
+  - Automatically carries over previous month's end balance, average balance, and saving goal to initialize calculations for the current month.
+  - Transfers current month data to "previous month" when transitioning to the next month.
 
-- Configure the top-level `parserOptions` property like this:
+## Terminologies
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Average Balance**: The average of daily end balances in a month.
+- **End Balance**: The balance left in the bank account at the end of a day or month.
+- **Saving Goal**: The desired change in average balance compared to the previous month.
+- **Action**: The additional transaction needed on specific days to achieve the saving goal, based on current month transactions.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Technical Details
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Frontend
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- **Framework**: React with TypeScript.
+- **Styling**: Bootstrap and custom CSS for a clean and responsive user interface.
+
+### Backend
+
+- **Database**: Firebase Firestore for storing user data and transactions securely.
+- **Hosting**: Firebase Hosting for deploying the application.
+
+---
+
+**Author**: Tan Ping Hui  
+**Contact**: [GitHub Profile](https://github.com/TPH777)
