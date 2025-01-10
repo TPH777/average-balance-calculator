@@ -9,7 +9,10 @@ function App() {
 
   return (
     <>
-      <h1 className="site-title">Average Balance Calculator</h1>
+      <h1 className="site-title">
+        <img src="src/pictures/logo.jpg" className="logo-img" />
+        Average Balance Calculator
+      </h1>
       <Calculator user={user} />
       <AccountButton user={user} setUser={setUser} />
     </>
