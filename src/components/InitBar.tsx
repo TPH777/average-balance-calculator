@@ -1,4 +1,4 @@
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { isNumber } from "../functions/number";
 import { getDate } from "../functions/date";
 
@@ -21,13 +21,15 @@ export function InitBar({
   avgBalance,
   setAvgBalance,
 }: InitBarProps) {
+  const { currMonYr: currMonYr, prevMonYr: prevMonYr } = getDate(isCurr);
+
   const handleInput = (input: string, setter: (val: string) => void) => {
     if (isNumber(input)) {
       setter(input);
     }
   };
 
-  const { currMonYr: currMonYr, prevMonYr: prevMonYr } = getDate(isCurr);
+  const handleCarryForward = () => {};
 
   return (
     <>
@@ -71,6 +73,21 @@ export function InitBar({
               onChange={(e) => handleInput(e.target.value, setSavingGoal)}
             />
           </Col>
+        </Row>
+        <Row className="mt-3">
+          <Col />
+          <Col>
+            <div className="d-grid gap-2">
+              <Button
+                size="sm"
+                variant="outline-light"
+                onClick={handleCarryForward}
+              >
+                Carry forward from {prevMonYr}
+              </Button>
+            </div>
+          </Col>
+          <Col />
         </Row>
       </Container>
     </>
