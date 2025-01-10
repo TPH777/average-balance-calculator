@@ -25,18 +25,17 @@
 
 /* Init Bar */
 .init-bar-container {
-  background-color: #3c3e40; /* Light background for the entire form */
-  padding: 1.5rem; /* Adds padding around the container */
-  border-radius: 8px; /* Smooth rounded corners */
+  background-color: #3c3e40;
+  padding: 1.5rem; 
+  border-radius: 8px; 
   min-width: 100%;
 }
 
-/* Styling for each form label */
 .form-label {
   color: #ffffff;
-  text-transform: uppercase; /* Optional: Makes header text uppercase */
-  font-weight: 600; /* Bold labels for emphasis */
-  margin-bottom: 0.5rem; /* Adds space between label and input */
+  text-transform: uppercase; 
+  font-weight: 600; 
+  margin-bottom: 0.5rem; 
 }
 
 /* Spinner */
@@ -45,8 +44,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); 
-  z-index: 1050; /* Ensures it appears above other content */
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  z-index: 1050; 
+  background-color: rgba(255, 255, 255, 0.8);
   width: 100%; 
   height: 100%; 
   display: flex;
@@ -56,30 +55,30 @@
 
 /* Table */
 .table {
-  border-radius: 8px; /* Smooth rounded corners */
-  overflow: hidden; /* Ensures rounded corners apply to content */
+  border-radius: 8px; 
+  overflow: hidden; 
 }
 
 .table th, .table td {
-  padding: 0.75rem; /* Adds consistent padding */
+  padding: 0.75rem;
 }
 
 .table th {
-  background-color: #343a40; /* Dark background for headers */
-  color: #ffffff; /* White text for contrast */
-  text-transform: uppercase; /* Optional: Makes header text uppercase */
+  background-color: #343a40; 
+  color: #ffffff; 
+  text-transform: uppercase; 
 }
 
 .table tfoot {
-  background-color: #f1f3f5; /* Light background to distinguish the footer */
-  font-weight: bold; /* Emphasizes footer content */
-  color: #495057; /* Dark text color for readability */
+  background-color: #f1f3f5;
+  font-weight: bold;
+  color: #495057; 
   text-transform: uppercase;
 }
 
 .table tfoot td {
-  padding: 0.75rem; /* Adds consistent padding */
-  border-top: 1.5px solid #b7babe; /* Differentiates footer with a top border */
+  padding: 0.75rem; 
+  border-top: 1.5px solid #b7babe; 
 }
 
 /* Button */
@@ -88,6 +87,6 @@
 }
 
 .button img {
-  width: 25px; /* Ensures the icon has a consistent size */
-  height: 25px; /* Matches width for square icons */
+  width: 25px;
+  height: 25px; 
 }
