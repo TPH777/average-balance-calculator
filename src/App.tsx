@@ -3,16 +3,14 @@ import "./App.css";
 import { Calculator } from "./components/Calculator";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AccountButton } from "./components/AccountButton";
+import { Header } from "./components/Header";
 
 function App() {
   const [user, setUser] = useState<string | null>(null);
 
   return (
     <>
-      <h1 className="site-title">
-        <img src="src/pictures/logo.jpg" className="logo-img" />
-        Average Balance Calculator
-      </h1>
+      <Header />
       <Calculator user={user} />
       <AccountButton user={user} setUser={setUser} />
     </>
