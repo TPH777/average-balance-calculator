@@ -1,10 +1,11 @@
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { isNumber, roundNumber } from "../functions/number";
 import { getDate } from "../functions/date";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { getBalanceChange } from "../functions/action";
 import { sortTransactions } from "../functions/transactions";
+import { useState } from "react";
 
 interface InitBarProps {
   user: string | null;
@@ -28,6 +29,7 @@ export function InitBar({
   setAvgBalance,
 }: InitBarProps) {
   const { currMonYr: currMonYr, prevMonYr: prevMonYr } = getDate(isCurr);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleInput = (input: string, setter: (val: string) => void) => {
     if (isNumber(input)) {
@@ -37,6 +39,7 @@ export function InitBar({
 
   const handleCarryForward = async () => {
     if (!user) return;
+    setIsLoading(true);
     try {
       const userDocRef = doc(db, "users", user);
       const userData = (await getDoc(userDocRef)).data();
@@ -52,6 +55,7 @@ export function InitBar({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -97,7 +101,7 @@ export function InitBar({
             />
           </Col>
         </Row>
-        {user && isCurr && (
+        {user && Boolean(isCurr) && (
           <Row className="mt-3">
             <div className="gap-2">
               <Button
@@ -105,7 +109,17 @@ export function InitBar({
                 variant="outline-light"
                 onClick={handleCarryForward}
               >
-                Carry forward from {prevMonYr}
+                {isLoading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <>Carry forward from {prevMonYr}</>
+                )}
               </Button>
             </div>
           </Row>
