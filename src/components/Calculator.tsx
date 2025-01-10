@@ -4,16 +4,19 @@ import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
 import { TableFooter } from "./TableFooter";
 import { db } from "../firebase/config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import {
   emptyTransactions,
-  initFirestore,
   sortTransactions,
   updateField,
 } from "../functions/transactions";
 import { maxDaysInMonth } from "../functions/date";
 import { Spinner, Table } from "react-bootstrap";
 import { MonthSelector } from "./MonthSelector";
+import {
+  initFirestore,
+  updateFirestoreIfMonthPassed,
+} from "../functions/firestore";
 
 export function Calculator({ user }: { user: string | null }) {
   const [savingGoal, setSavingGoal] = useState<string>("500");
@@ -35,14 +38,19 @@ export function Calculator({ user }: { user: string | null }) {
       setIsCurr(1);
       try {
         const userDocRef = doc(db, "users", user);
-        const userData = (await getDoc(userDocRef)).data();
+        var userData = (await getDoc(userDocRef)).data();
 
         if (userData) {
           // User exists, read from Firestore
-          setEndBalance(userData.endBalance[1]);
-          setAvgBalance(userData.avgBalance[1]);
-          setSavingGoal(userData.savingGoal[1]);
-          setMonthTransaction(await sortTransactions(userDocRef, isCurr));
+          await updateFirestoreIfMonthPassed(
+            userData.lastLoginDate.toDate(),
+            userDocRef
+          );
+          userData = (await getDoc(userDocRef)).data();
+          setEndBalance(userData?.endBalance[1]);
+          setAvgBalance(userData?.avgBalance[1]);
+          setSavingGoal(userData?.savingGoal[1]);
+          setMonthTransaction(await sortTransactions(userDocRef, 1));
         } else {
           // User does not exist, initialize Firestore
           initFirestore(
@@ -92,7 +100,7 @@ export function Calculator({ user }: { user: string | null }) {
         if (user) {
           const userDocRef = doc(db, "users", user);
           const userData = (await getDoc(userDocRef)).data();
-          await setDoc(userDocRef, {
+          await updateDoc(userDocRef, {
             endBalance: updateField(userData?.endBalance, endBalance, isCurr),
             avgBalance: updateField(userData?.avgBalance, avgBalance, isCurr),
             savingGoal: updateField(userData?.savingGoal, savingGoal, isCurr),

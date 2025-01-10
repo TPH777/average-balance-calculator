@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { isNumber, roundNumber } from "../functions/number";
-import { updateFirestore } from "../functions/transactions";
+import { updateFirestore } from "../functions/firestore";
 import { Button, Form, InputGroup } from "react-bootstrap";
 
 export interface TableRowProps {

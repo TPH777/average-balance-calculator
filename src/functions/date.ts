@@ -1,8 +1,8 @@
 export const maxDaysInMonth = 31;
 
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth();
+export const now = new Date();
+export const year = now.getFullYear();
+export const month = now.getMonth();
 
 // To determine number of days in curr/prev month
 const daysInCurrMonth = new Date(year, month + 1, 0).getDate();
