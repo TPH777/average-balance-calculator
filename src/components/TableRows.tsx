@@ -72,7 +72,11 @@ export function TableRows({
   return (
     <>
       <tr key={index}>
-        <td style={index + 1 === day ? { color: "red" } : {}}>{index + 1}</td>
+        <td
+          style={Boolean(isCurr) && index + 1 === day ? { color: "red" } : {}}
+        >
+          {index + 1}
+        </td>
         <td>
           {inputValues.length === 0 ? (
             <Button size="sm" variant="outline-success" onClick={addInput}>
@@ -109,7 +113,9 @@ export function TableRows({
             ))
           )}
         </td>
-        <td style={index + 1 === day ? { color: "red" } : {}}>
+        <td
+          style={Boolean(isCurr) && index + 1 === day ? { color: "red" } : {}}
+        >
           {roundUp(monthAction[index])}
         </td>
       </tr>
