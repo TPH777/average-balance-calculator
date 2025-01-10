@@ -1,6 +1,6 @@
 import { getBalanceChange } from "../functions/action";
 import { getDate } from "../functions/date";
-import { roundNumber } from "../functions/number";
+import { roundDown } from "../functions/number";
 
 interface TableFooterProps {
   isCurr: number;
@@ -16,9 +16,9 @@ export function TableFooter({
   monthTransaction,
 }: TableFooterProps) {
   const { avgChange, endChange } = getBalanceChange(monthTransaction, isCurr);
-  const currEndBalance = roundNumber(lastEndBalance + endChange);
-  const currAvgBalance = roundNumber(lastEndBalance + avgChange);
-  const avgBalanceDiff = roundNumber(currAvgBalance - lastAvgBalance);
+  const currEndBalance = roundDown(lastEndBalance + endChange);
+  const currAvgBalance = roundDown(lastEndBalance + avgChange);
+  const avgBalanceDiff = roundDown(currAvgBalance - lastAvgBalance);
   const { currMonYr: currMonYr } = getDate(isCurr);
 
   return (

@@ -1,5 +1,5 @@
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
-import { isNumber, roundNumber } from "../functions/number";
+import { isNumber, roundDown } from "../functions/number";
 import { getDate } from "../functions/date";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -48,8 +48,8 @@ export function InitBar({
         prevMonthTransaction,
         0
       );
-      const prevEndBalance = roundNumber(userData?.endBalance[0] + endChange);
-      const prevAvgBalance = roundNumber(userData?.avgBalance[0] + avgChange);
+      const prevEndBalance = roundDown(userData?.endBalance[0] + endChange);
+      const prevAvgBalance = roundDown(userData?.avgBalance[0] + avgChange);
       setEndBalance(prevEndBalance.toString());
       setAvgBalance(prevAvgBalance.toString());
     } catch (error) {

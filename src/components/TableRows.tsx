@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isNumber, roundNumber } from "../functions/number";
+import { isNumber, roundUp } from "../functions/number";
 import { updateFirestore } from "../functions/firestore";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { day } from "../functions/date";
@@ -110,7 +110,7 @@ export function TableRows({
           )}
         </td>
         <td style={index + 1 === day ? { color: "red" } : {}}>
-          {roundNumber(monthAction[index])}
+          {roundUp(monthAction[index])}
         </td>
       </tr>
     </>
