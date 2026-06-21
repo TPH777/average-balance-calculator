@@ -32,16 +32,15 @@ export function AccountButton({ user, setUser }: AccountButtonProps) {
   return (
     <>
       {user ? (
-        <Button variant="danger" className="button" onClick={googleSignOut}>
+        <Button variant="light" className="account-button sign-out-button" onClick={googleSignOut}>
           Sign Out
         </Button>
       ) : (
-        <Button variant="dark" className="button" onClick={googleSignIn}>
+        <Button variant="light" className="account-button" onClick={googleSignIn}>
           <Image src={googleLogo} alt="logo" className="align-top me-2" />
           Google Sign In
         </Button>
       )}
-      <br />
     </>
   );
 }

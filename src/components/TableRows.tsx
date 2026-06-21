@@ -71,21 +71,22 @@ export function TableRows({
 
   return (
     <>
-      <tr key={index}>
+      <tr key={index} className={Boolean(isCurr) && index + 1 === day ? "today-row" : ""}>
         <td
-          style={Boolean(isCurr) && index + 1 === day ? { color: "red" } : {}}
+          className="day-cell"
         >
           {index + 1}
         </td>
-        <td>
+        <td className="transaction-cell">
           {inputValues.length === 0 ? (
-            <Button size="sm" variant="outline-success" onClick={addInput}>
+            <Button size="sm" variant="outline-success" className="row-action-button" onClick={addInput}>
               +
             </Button>
           ) : (
             inputValues.map((value, transactionId) => (
-              <InputGroup key={`${index}-${transactionId}`}>
+              <InputGroup className="transaction-input-group" key={`${index}-${transactionId}`}>
                 <Form.Control
+                  className="transaction-input"
                   size="sm"
                   type="text"
                   value={value == "0" ? "" : value}
@@ -96,6 +97,7 @@ export function TableRows({
                   <Button
                     size="sm"
                     variant="outline-success"
+                    className="row-action-button"
                     onClick={addInput}
                   >
                     +
@@ -104,6 +106,7 @@ export function TableRows({
                 <Button
                   variant="outline-danger"
                   size="sm"
+                  className="row-action-button"
                   onClick={() => removeInput(transactionId)}
                 >
                   x
@@ -114,7 +117,7 @@ export function TableRows({
           )}
         </td>
         <td
-          style={Boolean(isCurr) && index + 1 === day ? { color: "red" } : {}}
+          className="action-cell"
         >
           {roundUp(monthAction[index])}
         </td>

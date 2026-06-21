@@ -1,15 +1,13 @@
-import { Container, Row } from "react-bootstrap";
-import logo from "../pictures/logo.jpg";
+import logo from "../pictures/balance-logo.svg";
 
 export function Header() {
   return (
-    <Container>
-      <Row>
-        <h1 className="site-title">
-          <img src={logo} className="logo-img" />
-          Average Balance Calculator
-        </h1>
-      </Row>
-    </Container>
+    <header className="site-header">
+      <img src={logo} className="logo-img" alt="Average Balance Calculator" />
+      <div>
+        <p className="site-kicker">Personal banking planner</p>
+        <h1 className="site-title">Average Balance Calculator</h1>
+      </div>
+    </header>
   );
 }

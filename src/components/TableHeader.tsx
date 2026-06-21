@@ -5,9 +5,11 @@ export function TableHeader({ isCurr }: { isCurr: number }) {
   return (
     <>
       <thead>
-        <th style={{ width: "10%" }}>{month}</th>
-        <th style={{ width: "60%" }}>Transaction</th>
-        <th style={{ width: "30%" }}>Action</th>
+        <tr>
+          <th style={{ width: "10%" }}>{month}</th>
+          <th style={{ width: "60%" }}>Transaction</th>
+          <th style={{ width: "30%" }}>Action</th>
+        </tr>
       </thead>
     </>
   );

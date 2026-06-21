@@ -119,6 +119,7 @@ export function Calculator({ user }: { user: string | null }) {
         </div>
       ) : (
         <>
+          <div className="calculator-layout">
           {user && <MonthSelector isCurr={isCurr} setIsCurr={setIsCurr} />}
           <InitBar
             user={user}
@@ -131,22 +132,25 @@ export function Calculator({ user }: { user: string | null }) {
             setAvgBalance={setAvgBalance}
           />
 
-          <Table striped bordered hover size="sm" className="mt-3 table">
-            <TableHeader isCurr={isCurr} />
-            <TableBody
-              user={user}
-              isCurr={isCurr}
-              offsettedGoal={offsettedGoal}
-              monthTransaction={monthTransaction}
-              setMonthTransaction={setMonthTransaction}
-            />
-            <TableFooter
-              isCurr={isCurr}
-              lastEndBalance={Number(endBalance)}
-              lastAvgBalance={Number(avgBalance)}
-              monthTransaction={monthTransaction}
-            />
-          </Table>
+          <div className="table-panel">
+            <Table hover responsive size="sm" className="balance-table">
+              <TableHeader isCurr={isCurr} />
+              <TableBody
+                user={user}
+                isCurr={isCurr}
+                offsettedGoal={offsettedGoal}
+                monthTransaction={monthTransaction}
+                setMonthTransaction={setMonthTransaction}
+              />
+              <TableFooter
+                isCurr={isCurr}
+                lastEndBalance={Number(endBalance)}
+                lastAvgBalance={Number(avgBalance)}
+                monthTransaction={monthTransaction}
+              />
+            </Table>
+          </div>
+          </div>
         </>
       )}
     </>

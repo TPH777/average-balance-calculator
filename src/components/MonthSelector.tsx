@@ -11,22 +11,22 @@ export function MonthSelector({ isCurr, setIsCurr }: MonthSelectorProps) {
 
   return (
     <>
-      <div className="mb-3">
+      <div className="month-selector">
         {Boolean(isCurr) && (
           <Button
-            className="me-2"
-            variant="outline-dark"
+            className="month-arrow"
+            variant="light"
             size="sm"
             onClick={() => setIsCurr(0)}
           >
             {`<`}
           </Button>
         )}
-        <Button variant="dark">{currMonYr}</Button>
+        <Button className="month-pill" variant="dark">{currMonYr}</Button>
         {!isCurr && (
           <Button
-            className="ms-2"
-            variant="outline-dark"
+            className="month-arrow"
+            variant="light"
             size="sm"
             onClick={() => setIsCurr(1)}
           >
