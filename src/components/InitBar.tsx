@@ -46,10 +46,14 @@ export function InitBar({
       const prevMonthTransaction = await sortTransactions(userDocRef, 0);
       const { avgChange, endChange } = getBalanceChange(
         prevMonthTransaction,
-        0
+        0,
       );
-      const prevEndBalance = roundDown(userData?.endBalance[0] + endChange);
-      const prevAvgBalance = roundDown(userData?.avgBalance[0] + avgChange);
+      const prevEndBalance = roundDown(
+        Number(userData?.endBalance?.[0] ?? 0) + endChange,
+      );
+      const prevAvgBalance = roundDown(
+        Number(userData?.avgBalance?.[0] ?? 0) + avgChange,
+      );
       setEndBalance(prevEndBalance.toString());
       setAvgBalance(prevAvgBalance.toString());
     } catch (error) {
@@ -60,41 +64,36 @@ export function InitBar({
 
   return (
     <>
-      <Container className="init-bar-container">
-        <Row>
-          <Col>
+      <Container fluid className="init-bar-container">
+        <Row className="g-3">
+          <Col xs={12} lg={4} className="balance-field">
             <Form.Label className="form-label">
               End Balance of {prevMonYr}
             </Form.Label>
-          </Col>
-          <Col>
-            <Form.Label className="form-label">
-              Average Balance of {prevMonYr}
-            </Form.Label>
-          </Col>
-          <Col>
-            <Form.Label className="form-label">
-              Saving Goal for {currMonYr}
-            </Form.Label>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <Form.Control
+              className="balance-input"
               type="text"
               value={endBalance}
               onChange={(e) => handleInput(e.target.value, setEndBalance)}
             />
           </Col>
-          <Col>
+          <Col xs={12} lg={4} className="balance-field">
+            <Form.Label className="form-label">
+              Average Balance of {prevMonYr}
+            </Form.Label>
             <Form.Control
+              className="balance-input"
               type="text"
               value={avgBalance}
               onChange={(e) => handleInput(e.target.value, setAvgBalance)}
             />
           </Col>
-          <Col>
+          <Col xs={12} lg={4} className="balance-field">
+            <Form.Label className="form-label">
+              Saving Goal for {currMonYr}
+            </Form.Label>
             <Form.Control
+              className="balance-input"
               type="text"
               value={savingGoal}
               onChange={(e) => handleInput(e.target.value, setSavingGoal)}
@@ -102,11 +101,12 @@ export function InitBar({
           </Col>
         </Row>
         {user && Boolean(isCurr) && (
-          <Row className="mt-3">
-            <div className="gap-2">
+          <Row className="mt-3 carry-forward-row">
+            <div>
               <Button
                 size="sm"
-                variant="outline-light"
+                variant="light"
+                className="carry-forward-button"
                 onClick={handleCarryForward}
               >
                 {isLoading ? (
